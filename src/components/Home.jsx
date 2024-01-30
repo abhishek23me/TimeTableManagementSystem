@@ -1,8 +1,14 @@
 import React from "react";
 import employee from "../employee.png";
 import adminimg from "../admin1.png";
+import { useNavigate} from 'react-router-dom';
 
 const Home = () => {
+  const history = useNavigate();
+  const handleNavigateToLogin = () => {
+    history('/login');
+  };
+
   const first = {
     color: "rgb(23,108,184)",
     display: "flex",
@@ -13,7 +19,7 @@ const Home = () => {
 
   const border = {
     marginTop: "10px",
-    height:"625px",
+    height: "625px",
   };
 
   const second = {
@@ -29,7 +35,7 @@ const Home = () => {
     // border: "1px solid black",
     margin: "auto",
     display: "flex",
-    marginTop:"30px",
+    marginTop: "30px",
   };
 
   const employeeimg = {
@@ -60,7 +66,7 @@ const Home = () => {
     borderRadius: "5px",
     display: "flex",
     margin: "auto",
-    boxShadow: '4px 4px 7px 7px rgb(0 0 0 / 15%)',
+    boxShadow: "4px 4px 7px 7px rgb(0 0 0 / 15%)",
   };
 
   const box2 = {
@@ -70,7 +76,7 @@ const Home = () => {
     borderRadius: "5px",
     display: "flex",
     margin: "auto",
-    boxShadow: '4px 4px 7px 7px rgb(0 0 0 / 15%)',
+    boxShadow: "4px 4px 7px 7px rgb(0 0 0 / 15%)",
   };
 
   const txt1 = {
@@ -99,8 +105,8 @@ const Home = () => {
     margin: "auto",
     color: "rgb(212, 172, 13)",
     borderRadius: "6px",
-    marginTop:"2px",
-    backgroundColor:"red",
+    marginTop: "2px",
+    backgroundColor: "red",
   };
 
   const btn2 = {
@@ -112,21 +118,21 @@ const Home = () => {
     margin: "auto",
     color: "rgb(212, 172, 13)",
     borderRadius: "6px",
-    marginTop:"2px",
-    backgroundColor:"#58b058",
+    marginTop: "2px",
+    backgroundColor: "#58b058",
   };
 
-  const icon1={
-    marginTop:"5px",
-    fontSize:"20px",
-    color:"white",
-  }
+  const icon1 = {
+    marginTop: "5px",
+    fontSize: "20px",
+    color: "white",
+  };
 
-  const icon2={
-    marginTop:"5px",
-    fontSize:"20px",
-    color:"white",
-  }
+  const icon2 = {
+    marginTop: "5px",
+    fontSize: "20px",
+    color: "white",
+  };
 
   return (
     <div style={border}>
@@ -142,8 +148,12 @@ const Home = () => {
           <img style={employeeimg} src={employee} alt="" />
           <div style={employeeText}>
             <div style={txt1}>Employee</div>
-            <div style={btn1}>
-              <i style={icon1} className="fa fa-sign-in fa-3" aria-hidden="true"></i>
+            <div style={btn1} onClick={handleNavigateToLogin}>
+              <i
+                style={icon1}
+                className="fa fa-sign-in fa-3"
+                aria-hidden="true"
+              ></i>
             </div>
           </div>
         </div>
@@ -151,8 +161,12 @@ const Home = () => {
           <img style={employeeimg1} src={adminimg} alt="" />
           <div style={employeeText}>
             <div style={txt2}>Admin</div>
-            <div style={btn2}>
-              <i style={icon2} className="fa fa-sign-in fa-3" aria-hidden="true"></i>
+            <div style={btn2} onClick={handleNavigateToLogin}>
+              <i
+                style={icon2}
+                className="fa fa-sign-in fa-3"
+                aria-hidden="true"
+              ></i>
             </div>
           </div>
         </div>

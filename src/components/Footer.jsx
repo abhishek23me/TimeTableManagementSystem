@@ -2,7 +2,7 @@ import React from "react";
 
 const Footer = () => {
   const footer = {
-    backgroundColor: "#2455a3",
+    background: "linear-gradient(to right, #2455a3, rgb(99 149 228),#2455a3)",
     height: "20px",
     width: "100%",
     fontSize: "12px",

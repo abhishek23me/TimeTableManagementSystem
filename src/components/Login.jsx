@@ -19,10 +19,10 @@ const Login = () => {
   };
 
   const loginBox = {
-    height: "394px",
+    height: "387px",
     width: "524px",
-    border: "1px solid #6688f3",
-    borderTop: "3px solid #562be0",
+    boxShadow: '4px 4px 7px 7px rgb(0 0 0 / 15%)',
+    borderTop: "3px solid #5cacda",
     borderRadius: "6px",
     margin: "auto",
     marginTop: "46px",
@@ -48,27 +48,27 @@ const Login = () => {
   const icon1 = {
     height: "23.5px",
     width: "21px",
-    border: "1px solid black",
+    border:"1px solid #b1b1b1",
   };
 
   const icon2 = {
     height: "23.5px",
     width: "21px",
-    border: "1px solid black",
+    border:"1px solid #b1b1b1",
     marginTop: "15px",
   };
 
   const icon3 = {
     height: "48.5px",
     width: "25px",
-    border: "1px solid black",
+    border:"1px solid #b1b1b1",
     marginTop: "15px",
     backgroundColor: "green",
   };
 
   const iconin1 = {
     marginLeft: "5px",
-    color: "blue",
+    color: "#0d6efd",
   };
 
   const iconin2 = {
@@ -93,6 +93,7 @@ const Login = () => {
     height: "20px",
     paddingLeft: "5px",
     fontSize: "12px",
+    border:"1px solid #b1b1b1",
     gap: "30px",
   };
 
@@ -101,13 +102,14 @@ const Login = () => {
     height: "20px",
     paddingLeft: "5px",
     fontSize: "12px",
+    border:"1px solid #b1b1b1",
     marginTop: "15px",
   };
   const common3 = {
     width: "233px",
     height: "45px",
     paddingLeft: "7px",
-    fontSize: "12px",
+    border:"1px solid #b1b1b1",
     margin: "auto",
     marginTop: "15px",
     fontSize: "38px",
@@ -117,6 +119,7 @@ const Login = () => {
   const common4 = {
     width: "437px",
     height: "20px",
+    border:"1px solid #b1b1b1",
     paddingLeft: "5px",
     fontSize: "12px",
     marginTop: "15px",
@@ -128,21 +131,49 @@ const Login = () => {
     width: "316px",
   };
 
-  const button={
+  const button = {
     backgroundColor: "#0d6efd",
     borderRadius: "3px",
     marginLeft: "78.6%",
-    border:"none",
+    border: "none",
     marginTop: "14px",
     height: "28px",
-    width:"62px",
-    color:"white",
-    cursor:"pointer",
-  }
+    width: "62px",
+    color: "white",
+    cursor: "pointer",
+  };
 
-  const main={
-    height:"589px",
-  }
+  const main = {
+    height: "589px",
+  };
+
+  const forgot = {
+    height: "66px",
+    borderRadius: "5px",
+    display: "flex",
+    flexDirection: "column",
+    fontSize: "12px",
+    backgroundColor: "#f4f4f4",
+    marginTop: "30px",
+  };
+
+  const firstForgot = {
+    marginTop: "5px",
+    marginLeft: "15px",
+    color: "blue",
+  };
+
+  const secondForgot = {
+    marginLeft: "15px",
+    marginTop: "2px",
+    color: "blue",
+  };
+
+  const thirdForgot = {
+    marginLeft: "79%",
+    marginTop: "2px",
+    color: "#198754",
+  };
 
   return (
     <div style={main}>
@@ -187,7 +218,7 @@ const Login = () => {
                   style={iconin2}
                   class="fa fa-eye text-danger fw-bold"
                   id="passwordIcon"
-                  onclick="javascript:toggleEye();"
+                  // onclick="javascript:toggleEye();"
                   aria-hidden="false"
                 ></i>
               </div>
@@ -226,6 +257,17 @@ const Login = () => {
             </div>
             <button style={button}>Submit</button>
           </form>
+        </div>
+        <div style={forgot}>
+          <a style={firstForgot} href="">
+            Forgot Password
+          </a>
+          <a style={secondForgot} href="">
+            Forgot LoginId
+          </a>
+          <a style={thirdForgot} href="/">
+            Go to Home Page
+          </a>
         </div>
       </div>
     </div>
