@@ -1,8 +1,8 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const generateRandomCode = () => {
-  const characters =
-    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+  const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
   let code = "";
   for (let i = 0; i < 6; i++) {
     const randomIndex = Math.floor(Math.random() * characters.length);
@@ -12,6 +12,11 @@ const generateRandomCode = () => {
 };
 
 const Login = () => {
+  const history = useNavigate();
+  const handleNavigateToHome = () => {
+    history("/main");
+  };
+
   const [captchaCode, setCaptchaCode] = useState(generateRandomCode());
 
   const handleRefresh = () => {
@@ -21,7 +26,7 @@ const Login = () => {
   const loginBox = {
     height: "387px",
     width: "524px",
-    boxShadow: '4px 4px 7px 7px rgb(0 0 0 / 15%)',
+    boxShadow: "4px 4px 7px 7px rgb(0 0 0 / 15%)",
     borderTop: "3px solid #5cacda",
     borderRadius: "6px",
     margin: "auto",
@@ -48,20 +53,20 @@ const Login = () => {
   const icon1 = {
     height: "23.5px",
     width: "21px",
-    border:"1px solid #b1b1b1",
+    border: "1px solid #b1b1b1",
   };
 
   const icon2 = {
     height: "23.5px",
     width: "21px",
-    border:"1px solid #b1b1b1",
+    border: "1px solid #b1b1b1",
     marginTop: "15px",
   };
 
   const icon3 = {
     height: "48.5px",
     width: "25px",
-    border:"1px solid #b1b1b1",
+    border: "1px solid #b1b1b1",
     marginTop: "15px",
     backgroundColor: "green",
   };
@@ -93,7 +98,7 @@ const Login = () => {
     height: "20px",
     paddingLeft: "5px",
     fontSize: "12px",
-    border:"1px solid #b1b1b1",
+    border: "1px solid #b1b1b1",
     gap: "30px",
   };
 
@@ -102,14 +107,14 @@ const Login = () => {
     height: "20px",
     paddingLeft: "5px",
     fontSize: "12px",
-    border:"1px solid #b1b1b1",
+    border: "1px solid #b1b1b1",
     marginTop: "15px",
   };
   const common3 = {
     width: "233px",
     height: "45px",
     paddingLeft: "7px",
-    border:"1px solid #b1b1b1",
+    border: "1px solid #b1b1b1",
     margin: "auto",
     marginTop: "15px",
     fontSize: "38px",
@@ -119,7 +124,7 @@ const Login = () => {
   const common4 = {
     width: "437px",
     height: "20px",
-    border:"1px solid #b1b1b1",
+    border: "1px solid #b1b1b1",
     paddingLeft: "5px",
     fontSize: "12px",
     marginTop: "15px",
@@ -255,7 +260,9 @@ const Login = () => {
                 required
               />
             </div>
-            <button style={button}>Submit</button>
+            <button style={button} onClick={handleNavigateToHome}>
+              Submit
+            </button>
           </form>
         </div>
         <div style={forgot}>

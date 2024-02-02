@@ -1,7 +1,7 @@
 import React from "react";
 import employee from "../employee.png";
 import adminimg from "../admin1.png";
-import { useNavigate} from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 const Home = () => {
   const history = useNavigate();
