@@ -1,9 +1,10 @@
 import React from 'react'
+import SideBar from './SideBar'
 
 function Main() {
   return (
     <div>
-      gfbgfng
+      <SideBar/>
     </div>
   )
 }
