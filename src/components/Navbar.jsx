@@ -1,13 +1,13 @@
 import React from "react";
-import logo from "../VITLogoEmblem.png";
+import logo from "../ttmss.png";
 
 const Navbar = () => {
   const logos = {
-    height: "44px",
-    width: "116px",
-    // backgroundColor: "#2455a3",
-    marginLeft:"10px",
-    marginTop:"5px",
+    height: "52px",
+    width: "54px",
+    background: "transparent",
+    marginLeft: "10px",
+    marginTop: "1px",
   };
 
   const navbar = {
@@ -20,7 +20,8 @@ const Navbar = () => {
   return (
     <div style={navbar}>
       <img style={logos} src={logo} alt="logo not found" />
-    </div>
+    </div>  
+    
   );
 };
 

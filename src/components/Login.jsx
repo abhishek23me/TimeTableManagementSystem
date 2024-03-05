@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import Navbar from "./Navbar";
+import Footer from "./Footer";
 
 const generateRandomCode = () => {
   const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
@@ -22,6 +24,12 @@ const Login = () => {
   const handleRefresh = () => {
     setCaptchaCode(generateRandomCode());
   };
+
+  const fot = () => {
+    var a = document.getElementById('user');
+    var b = a.value.toUpperCase();
+    a.value = b;
+  }
 
   const loginBox = {
     height: "387px",
@@ -64,10 +72,10 @@ const Login = () => {
   };
 
   const icon3 = {
-    height: "48.5px",
+    height: "45px",
     width: "25px",
     border: "1px solid #b1b1b1",
-    marginTop: "15px",
+    marginTop: "14.8px",
     backgroundColor: "green",
   };
 
@@ -149,7 +157,7 @@ const Login = () => {
   };
 
   const main = {
-    height: "589px",
+    height: "602px",
   };
 
   const forgot = {
@@ -181,103 +189,108 @@ const Login = () => {
   };
 
   return (
-    <div style={main}>
-      <div style={loginBox}>
-        <div style={text1}>
-          <span style={txt1}>VTOP Login</span>
-        </div>
-        <div>
-          <form style={form}>
-            <div style={username}>
-              <input
-                placeholder="Username"
-                style={common1}
-                type="text"
-                id="username"
-                name="username"
-                // value={username}
-                // onChange={handleUsernameChange}
-                required
-              />
-              <div style={icon1}>
-                <i
-                  style={iconin1}
-                  class="fa fa-user text-primary"
-                  aria-hidden="true"
-                ></i>
-              </div>
-            </div>
-            <div style={username}>
-              <input
-                placeholder="Password"
-                style={common2}
-                type="password"
-                id="password"
-                name="password"
-                // value={password}
-                // onChange={handlePasswordChange}
-                required
-              />
-              <div style={icon2}>
-                <i
-                  style={iconin2}
-                  class="fa fa-eye text-danger fw-bold"
-                  id="passwordIcon"
-                  // onclick="javascript:toggleEye();"
-                  aria-hidden="false"
-                ></i>
-              </div>
-            </div>
-            <div style={maa}>
+    <>
+      <Navbar />
+      <div style={main}>
+        <div style={loginBox}>
+          <div style={text1}>
+            <span style={txt1}>Login</span>
+          </div>
+          <div>
+            <form style={form}>
               <div style={username}>
                 <input
-                  style={common3}
+                  placeholder="Username"
+                  style={common1}
                   type="text"
-                  id="captcha"
-                  name="captcha"
-                  value={captchaCode}
-                  readOnly
+                  id="username"
+                  name="username"
+                  // value={username}
+                  // onChange={handleUsernameChange}
+                  required
                 />
-                <div style={icon3}>
+                <div style={icon1}>
                   <i
-                    style={iconin3}
-                    onClick={handleRefresh}
-                    class="fa fa-refresh"
+                    style={iconin1}
+                    className="fa fa-user text-primary"
                     aria-hidden="true"
                   ></i>
                 </div>
               </div>
-            </div>
-            <div style={username}>
-              <input
-                placeholder="Enter CAPTCHA Shown Above"
-                style={common4}
-                type="text"
-                id="username"
-                name="username"
-                // value={username}
-                // onChange={handleUsernameChange}
-                required
-              />
-            </div>
-            <button style={button} onClick={handleNavigateToHome}>
-              Submit
-            </button>
-          </form>
-        </div>
-        <div style={forgot}>
-          <a style={firstForgot} href="">
-            Forgot Password
-          </a>
-          <a style={secondForgot} href="">
-            Forgot LoginId
-          </a>
-          <a style={thirdForgot} href="/">
-            Go to Home Page
-          </a>
+              <div style={username}>
+                <input
+                  placeholder="Password"
+                  style={common2}
+                  type="password"
+                  id="password"
+                  name="password"
+                  // value={password}
+                  // onChange={handlePasswordChange}
+                  required
+                />
+                <div style={icon2}>
+                  <i
+                    style={iconin2}
+                    className="fa fa-eye text-danger fw-bold"
+                    id="passwordIcon"
+                    // onclick="javascript:toggleEye();"
+                    aria-hidden="false"
+                  ></i>
+                </div>
+              </div>
+              <div style={maa}>
+                <div style={username}>
+                  <input
+                    style={common3}
+                    type="text"
+                    id="captcha"
+                    name="captcha"
+                    value={captchaCode}
+                    readOnly
+                  />
+                  <div style={icon3}>
+                    <i
+                      style={iconin3}
+                      onClick={handleRefresh}
+                      className="fa fa-refresh"
+                      aria-hidden="true"
+                    ></i>
+                  </div>
+                </div>
+              </div>
+              <div style={username}>
+                <input
+                  placeholder="Enter CAPTCHA Shown Above"
+                  style={common4}
+                  type="text"
+                  id="user"
+                  name="username"
+                  onInput={fot}
+                  // value={username}
+                  // onChange={handleUsernameChange}
+                  required
+                />
+              </div>
+              <button style={button} onClick={handleNavigateToHome}>
+                Submit
+              </button>
+            </form>
+          </div>
+          <div style={forgot}>
+            <a style={firstForgot} href="">
+              Forgot Password
+            </a>
+            <a style={secondForgot} href="">
+              Forgot LoginId
+            </a>
+            <a style={thirdForgot} href="/">
+              Go to Home Page
+            </a>
+          </div>
         </div>
       </div>
-    </div>
+      <Footer/>
+    </>
   );
 };
 

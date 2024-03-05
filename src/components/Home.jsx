@@ -1,12 +1,18 @@
 import React from "react";
 import employee from "../employee.png";
 import adminimg from "../admin1.png";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
+import Navbar from "./Navbar";
+import Footer from "./Footer";
 
 const Home = () => {
   const history = useNavigate();
   const handleNavigateToLogin = () => {
-    history('/login');
+    history("/login");
+  };
+
+  const handleNavigateToRegister = () => {
+    history("/adminhome");
   };
 
   const first = {
@@ -19,7 +25,7 @@ const Home = () => {
 
   const border = {
     marginTop: "10px",
-    height: "625px",
+    height: "591px",
   };
 
   const second = {
@@ -135,43 +141,47 @@ const Home = () => {
   };
 
   return (
-    <div style={border}>
-      <div>
-        <strong style={first}>VTOP translates to "VIT" on "TOP"</strong>
-        <div style={second}>
-          A digital initiative by the institute facilitating FFCS Timetable
-          Registration to the Faculties at this platform.
+    <>
+      <Navbar />
+      <div style={border}>
+        <div>
+          {/* <strong style={first}>VTOP translates to "VIT" on "TOP"</strong> */}
+          <div style={second}>
+            A digital initiative by the institute facilitating FFCS Timetable
+            Registration to the Faculties at this platform.
+          </div>
         </div>
-      </div>
-      <div style={box}>
-        <div style={box1}>
-          <img style={employeeimg} src={employee} alt="" />
-          <div style={employeeText}>
-            <div style={txt1}>Employee</div>
-            <div style={btn1} onClick={handleNavigateToLogin}>
-              <i
-                style={icon1}
-                className="fa fa-sign-in fa-3"
-                aria-hidden="true"
-              ></i>
+        <div style={box}>
+          <div style={box1}>
+            <img style={employeeimg} src={employee} alt="" />
+            <div style={employeeText}>
+              <div style={txt1}>Employee</div>
+              <div style={btn1} onClick={handleNavigateToLogin}>
+                <i
+                  style={icon1}
+                  className="fa fa-sign-in fa-3"
+                  aria-hidden="true"
+                ></i>
+              </div>
+            </div>
+          </div>
+          <div style={box2}>
+            <img style={employeeimg1} src={adminimg} alt="" />
+            <div style={employeeText}>
+              <div style={txt2}>Admin</div>
+              <div style={btn2} onClick={handleNavigateToRegister}>
+                <i
+                  style={icon2}
+                  className="fa fa-sign-in fa-3"
+                  aria-hidden="true"
+                ></i>
+              </div>
             </div>
           </div>
         </div>
-        <div style={box2}>
-          <img style={employeeimg1} src={adminimg} alt="" />
-          <div style={employeeText}>
-            <div style={txt2}>Admin</div>
-            <div style={btn2} onClick={handleNavigateToLogin}>
-              <i
-                style={icon2}
-                className="fa fa-sign-in fa-3"
-                aria-hidden="true"
-              ></i>
-            </div>
-          </div>
-        </div>
       </div>
-    </div>
+      <Footer/>
+    </>
   );
 };
 
