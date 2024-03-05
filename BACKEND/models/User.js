@@ -16,10 +16,6 @@ const UserSchema = new Schema({
         required: true,
         unique: true
     },
-    // facultyName: {
-    //     type: String,
-    //     required: true
-    // },
     designation: {
         type: String,
         required: true
