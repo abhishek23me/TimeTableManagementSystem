@@ -1,7 +1,21 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 function Register() {
+  const [credentials, setCredentials] = useState({
+    username: "",
+    name: "",
+    email: "",
+    facultyName: "",
+    designation: "",
+    departmentName: "",
+    schoolCenterName: "",
+    cabinNo: "",
+    password: "",
+  });
+
   const [inputFocus, setInputFocus] = useState(false);
+  const navigate = useNavigate();
 
   const container = {
     maxWidth: '600px',
@@ -29,7 +43,6 @@ function Register() {
   };
 
   const forms = {
-
     padding: '35px 85px 35px 35px',
   };
 
@@ -37,7 +50,6 @@ function Register() {
     height: '45px',
     marginBottom: '15px',
     position: 'relative',
-
   };
 
   const input = {
@@ -70,11 +82,8 @@ function Register() {
     justifyContent: 'center',
   };
 
-
-
   const button = {
     color: '#fff',
-    fontSize: '20px',
     fontWeight: '600',
     paddingLeft: '0px',
     background: '#16a085',
@@ -88,44 +97,54 @@ function Register() {
     boxShadow: "1px 1px 3px 3px rgb(0 0 0/15%)",
   };
 
-  const f1={
-    height: '100%',
-    width: '100%',
-    paddingTop:"5px",
-    fontSize:"19px",
-    paddingLeft: '60px',
-    borderRadius: '5px',
-    border: '1px solid lightgrey',
-    borderColor: inputFocus ? '#21b6ca' : 'lightgrey',
-    boxShadow: inputFocus ? 'inset 0px 0px 2px 2px rgba(26, 188, 156, 0.25)' : 'none',
+  const onChange = (e) => {
+    setCredentials({ ...credentials, [e.target.name]: e.target.value });
+  };
 
-     }
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+  
+    try {
+      const response = await fetch(`http://localhost:3000/api/auth/createuser`, {
+        method: 'POST',
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(credentials),
+      });
+  
+      const json = await response.json();
+      console.log(json);
+  
+      if (response.ok) {
+        // Redirect to login page if user creation is successful
+        navigate('/login');
+      } else {
+        console.error(json.error);
+        // Handle error scenarios here, such as displaying an error message to the user
+      }
+    } catch (error) {
+      console.error("Error creating user:", error);
+      // Handle network errors or other exceptions here
+    }
+  };
+  
+
   return (
-    
     <div style={container}>
       <div style={wrapper}>
         <div style={title}><span>Teacher Registration Form</span></div>
-        <form style={forms}>
+        <form style={forms} onSubmit={handleSubmit}>
           <div style={row}>
             <i className="fas fa-user" style={icons}></i>
             <input
               type="text"
-              placeholder="User Name"
-              name="nm"
+              placeholder="Username"
+              name="username"
               required
               style={input}
-              onFocus={() => setInputFocus(true)}
-              onBlur={() => setInputFocus(false)}
-            />
-          </div>
-          <div style={row}>
-            <i className="fas fa-lock" style={icons}></i>
-            <input
-              type="password"
-              placeholder="Password"
-              name="pass"
-              required
-              style={input}
+              value={credentials.username}
+              onChange={onChange}
               onFocus={() => setInputFocus(true)}
               onBlur={() => setInputFocus(false)}
             />
@@ -134,10 +153,26 @@ function Register() {
             <i className="fas fa-chalkboard-teacher" style={icons}></i>
             <input
               type="text"
-              placeholder="Name of Faculty"
-              name="facultyName"
+              placeholder="Name"
+              name="name"
               required
               style={input}
+              value={credentials.name}
+              onChange={onChange}
+              onFocus={() => setInputFocus(true)}
+              onBlur={() => setInputFocus(false)}
+            />
+          </div>
+          <div style={row}>
+            <i className="fas fa-envelope" style={icons}></i>
+            <input
+              type="email"
+              placeholder="Email"
+              name="email"
+              required
+              style={input}
+              value={credentials.email}
+              onChange={onChange}
               onFocus={() => setInputFocus(true)}
               onBlur={() => setInputFocus(false)}
             />
@@ -150,6 +185,8 @@ function Register() {
               name="designation"
               required
               style={input}
+              value={credentials.designation}
+              onChange={onChange}
               onFocus={() => setInputFocus(true)}
               onBlur={() => setInputFocus(false)}
             />
@@ -158,10 +195,12 @@ function Register() {
             <i className="fas fa-building" style={icons}></i>
             <input
               type="text"
-              placeholder="Name of Department"
+              placeholder="Department Name"
               name="departmentName"
               required
               style={input}
+              value={credentials.departmentName}
+              onChange={onChange}
               onFocus={() => setInputFocus(true)}
               onBlur={() => setInputFocus(false)}
             />
@@ -174,51 +213,41 @@ function Register() {
               name="schoolCenterName"
               required
               style={input}
+              value={credentials.schoolCenterName}
+              onChange={onChange}
               onFocus={() => setInputFocus(true)}
               onBlur={() => setInputFocus(false)}
             />
           </div>
-
-          <div style={row}>
-            <i className="fas fa-envelope" style={icons}></i>
-            <input
-              type="email"
-              placeholder="Email ID"
-              name="email"
-              required
-              style={input}
-              onFocus={() => setInputFocus(true)}
-              onBlur={() => setInputFocus(false)}
-            />
-          </div>
-
           <div style={row}>
             <i className="fas fa-map-marker-alt" style={icons}></i>
             <input
               type="text"
-              placeholder="Cabin Number"
-              name="cabin"
+              placeholder="Cabin No"
+              name="cabinNo"
               required
               style={input}
+              value={credentials.cabinNo}
+              onChange={onChange}
               onFocus={() => setInputFocus(true)}
               onBlur={() => setInputFocus(false)}
             />
           </div>
           <div style={row}>
-            <i className="fas fa-image" style={icons}></i>
+            <i className="fas fa-lock" style={icons}></i>
             <input
-              type="file"
-              name="photo"
-              // accept="image/" {/ This attribute specifies the types of files that the server accepts (only images in this case) */}
-              // style={input}
-              style={f1}
+              type="password"
+              placeholder="Password"
+              name="password"
+              required
+              style={input}
+              value={credentials.password}
+              onChange={onChange}
               onFocus={() => setInputFocus(true)}
               onBlur={() => setInputFocus(false)}
             />
           </div>
-
           <input type="submit" value="Register" style={button} />
-
         </form>
       </div>
     </div>
