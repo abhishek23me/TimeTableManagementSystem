@@ -20,11 +20,55 @@ const Login = () => {
   };
 
   const [captchaCode, setCaptchaCode] = useState(generateRandomCode());
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
 
   const handleRefresh = () => {
     setCaptchaCode(generateRandomCode());
   };
 
+  const handleLogin = async (e) => {
+    e.preventDefault();
+  
+    // Your backend API URL for login
+    const url = "/api/auth/login";
+  
+    // Get the entered CAPTCHA value
+    const enteredCaptcha = document.getElementById("user").value;
+  
+    if (enteredCaptcha !== captchaCode) {
+      // Show an alert or error message if CAPTCHA doesn't match
+      alert("Please enter the correct CAPTCHA code.");
+      return;
+    }
+  
+    try {
+      const response = await fetch(url, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email: username, password }),
+      });
+  
+      const data = await response.json();
+  
+      if (data.success) {
+        // Save the token to local storage or session storage
+        localStorage.setItem("token", data.authtoken);
+  
+        // Redirect to the desired page
+        handleNavigateToHome();
+      } else {
+        // Handle error, show error message to the user
+        console.log(data.error);
+      }
+    } catch (error) {
+      // Handle network errors or other exceptions
+      console.error("Error:", error);
+    }
+  };
+  
   const fot = () => {
     var a = document.getElementById('user');
     var b = a.value.toUpperCase();
@@ -54,7 +98,7 @@ const Login = () => {
     marginLeft: "11px",
   };
 
-  const username = {
+  const usernameStyle = {
     display: "flex",
   };
 
@@ -197,16 +241,16 @@ const Login = () => {
             <span style={txt1}>Login</span>
           </div>
           <div>
-            <form style={form}>
-              <div style={username}>
+            <form style={form} onSubmit={handleLogin}>
+              <div style={usernameStyle}>
                 <input
                   placeholder="Username"
                   style={common1}
                   type="text"
                   id="username"
                   name="username"
-                  // value={username}
-                  // onChange={handleUsernameChange}
+                  value={username}
+                  onChange={(e) => setUsername(e.target.value)}
                   required
                 />
                 <div style={icon1}>
@@ -217,15 +261,15 @@ const Login = () => {
                   ></i>
                 </div>
               </div>
-              <div style={username}>
+              <div style={usernameStyle}>
                 <input
                   placeholder="Password"
                   style={common2}
                   type="password"
                   id="password"
                   name="password"
-                  // value={password}
-                  // onChange={handlePasswordChange}
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
                   required
                 />
                 <div style={icon2}>
@@ -239,7 +283,7 @@ const Login = () => {
                 </div>
               </div>
               <div style={maa}>
-                <div style={username}>
+                <div style={usernameStyle}>
                   <input
                     style={common3}
                     type="text"
@@ -258,7 +302,7 @@ const Login = () => {
                   </div>
                 </div>
               </div>
-              <div style={username}>
+              <div style={usernameStyle}>
                 <input
                   placeholder="Enter CAPTCHA Shown Above"
                   style={common4}
@@ -271,7 +315,7 @@ const Login = () => {
                   required
                 />
               </div>
-              <button style={button} onClick={handleNavigateToHome}>
+              <button style={button} type="submit">
                 Submit
               </button>
             </form>
@@ -289,7 +333,7 @@ const Login = () => {
           </div>
         </div>
       </div>
-      <Footer/>
+      <Footer />
     </>
   );
 };
