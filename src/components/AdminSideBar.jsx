@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import logo from "../ttmss.png";
 import adminimg from "../admin1.png";
 
-const AdminSideBar = ({ onSidebarClick, onFacultySearchClick, onShowHomeClick, onChangePasswordClick, onContactUsClick, onRegisterFacultyClick }) => {
+const AdminSideBar = ({ onSidebarClick, onFacultySearchClick, onShowHomeClick, onChangePasswordClick, onRegisterFacultyClick }) => {
     const logos = {
         height: "45px",
         width: "50px",

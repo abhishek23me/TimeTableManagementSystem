@@ -4,7 +4,7 @@ const router = express.Router();
 const { body, validationResult } = require("express-validator");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
-// const fetchuser = require('../middleware/fetchuser.js');
+const fetchuser = require('../middleware/fetchuser.js');
 
 const JWT_SECRET = "abhiisagoodb$oy";
 
@@ -130,5 +130,69 @@ router.delete('/users/:id', async (req, res) => {
       return res.status(500).json({ message: 'Server error' });
   }
 });
+
+// Route to change password for a user using: PUT "/api/auth/changepassword"
+router.put("/changepassword", async (req, res) => {
+  const { userId, newPassword } = req.body;
+
+  try {
+    let user = await User.findById(userId);
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(newPassword, salt);
+
+    user.password = hashedPassword;
+    await user.save();
+
+    res.status(200).json({ message: "Password changed successfully" });
+  } catch (error) {
+    console.error("Error changing password:", error);
+    res.status(500).json({ message: "Server error" });
+  }
+});
+
+// Route to get user by email
+router.get("/user", async (req, res) => {
+  const { email } = req.query;
+
+  try {
+    const user = await User.findOne({ email });
+
+    if (!user) {
+      return res.status(404).json({ success: false, message: "User not found" });
+    }
+
+    // If user found, return user data
+    res.json({ success: true, user });
+  } catch (error) {
+    console.error("Error fetching user by email:", error);
+    res.status(500).json({ success: false, message: "Server error" });
+  }
+});
+
+
+// Route to get user profile by ID
+router.get("/userprofile", async (req, res) => {
+  const userId = req.query.id;
+  console.log("Received request to fetch user profile with ID:", userId);
+
+  try {
+    const userProfile = await User.findById(userId);
+    if (!userProfile) {
+      console.log("User profile not found with ID:", userId);
+      return res.status(404).json({ success: false, message: "User profile not found" });
+    }
+    console.log("Found user profile:", userProfile);
+    res.json({ success: true, userProfile });
+  } catch (error) {
+    console.error("Error fetching user profile:", error);
+    res.status(500).json({ success: false, message: "Server error" });
+  }
+});
+
+
 
 module.exports = router;

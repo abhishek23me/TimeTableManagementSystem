@@ -234,6 +234,17 @@ const SideBar = ({
                 <p style={text2}>Profile</p>
               </button>
             </div>
+            <div>
+              <button
+                style={drops}
+                className="btn btn-secondary"
+                type="button"
+                onClick={onChangePasswordClick}
+              >
+                <i className="fa fa-lock iconSpace "></i>
+                <p style={text2}>Change Password</p>
+              </button>
+            </div>
 
             <div>
               <button
@@ -241,8 +252,8 @@ const SideBar = ({
                 className="btn btn-secondary"
                 type="button"
                 onClick={onTimeTableClick}
-              // data-bs-toggle="dropdown"
-              // aria-expanded="false"
+                // data-bs-toggle="dropdown"
+                // aria-expanded="false"
               >
                 <i
                   style={Logo2}
@@ -256,24 +267,11 @@ const SideBar = ({
                 style={drops}
                 className="btn btn-secondary"
                 type="button"
-              // data-bs-toggle="dropdown"
-              // aria-expanded="false"
+                // data-bs-toggle="dropdown"
+                // aria-expanded="false"
               >
                 <i className="fa fa-book iconSpace"></i>
                 <p style={text2}>Generate Time Table</p>
-              </button>
-            </div>
-            <div>
-              <button
-                style={drops}
-                className="btn btn-secondary"
-                type="button"
-                // data-bs-toggle="dropdown"
-                // aria-expanded="false"
-                onClick={onChangePasswordClick}
-              >
-                <i className="fa fa-lock iconSpace "></i>
-                <p style={text2}>Change Password</p>
               </button>
             </div>
           </div>
@@ -291,7 +289,7 @@ const SideBar = ({
             className="btn btn-secondary dropdown-toggle"
             type="button"
             data-bs-toggle="dropdown"
-          aria-expanded="false"
+            aria-expanded="false"
           >
             23MCA10066(Faculty)
           </button>

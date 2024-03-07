@@ -29,9 +29,11 @@ const Login = () => {
 
   const handleLogin = async (e) => {
     e.preventDefault();
-  
+    
     // Your backend API URL for login
-    const url = "/api/auth/login";
+    const loginUrl = "/api/auth/login";
+    // Your backend API URL for fetching user by email
+    const getUserUrl = "/api/auth/user";
   
     // Get the entered CAPTCHA value
     const enteredCaptcha = document.getElementById("user").value;
@@ -43,7 +45,7 @@ const Login = () => {
     }
   
     try {
-      const response = await fetch(url, {
+      const response = await fetch(loginUrl, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -57,8 +59,21 @@ const Login = () => {
         // Save the token to local storage or session storage
         localStorage.setItem("token", data.authtoken);
   
-        // Redirect to the desired page
-        handleNavigateToHome();
+        // Fetch user by email to get the user ID
+        const getUserResponse = await fetch(`${getUserUrl}?email=${username}`);
+        const userData = await getUserResponse.json();
+  
+        if (userData.success) {
+          const userId = userData.user._id;
+          // Save the user ID to local storage
+          localStorage.setItem("userId", userId);
+  
+          // Redirect to the desired page
+          handleNavigateToHome();
+        } else {
+          // Handle error when fetching user data
+          console.error("Error fetching user data:", userData.message);
+        }
       } else {
         // Handle error, show error message to the user
         console.log(data.error);
@@ -68,7 +83,8 @@ const Login = () => {
       console.error("Error:", error);
     }
   };
-  
+   
+
   const fot = () => {
     var a = document.getElementById('user');
     var b = a.value.toUpperCase();
