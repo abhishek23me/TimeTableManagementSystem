@@ -62,7 +62,9 @@ router.post(
       res.status(500).send("Internal Server Error");
     }
   }
-);// Route 2: authenticate a user using: POST "/api/auth/login". No Login Required
+);
+
+// Route 2: authenticate a user using: POST "/api/auth/login". No Login Required
 router.post(
   "/login",
   [
@@ -103,5 +105,16 @@ router.post(
     }
   }
 );
+
+// Route 3: get all users using: GET "/api/auth/all". No Login Required
+router.get("/all", async (req, res) => {
+  try {
+    const users = await User.find();
+    res.json({ success: true, users });
+  } catch (error) {
+    console.error(error.message);
+    res.status(500).send("Internal Server Error");
+  }
+});
 
 module.exports = router;
