@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import $ from 'jquery';
-import 'datatables.net'; // Import DataTables CSS and JS
+import 'datatables.net';
 
 function FacultySearch() {
     const [facultyData, setFacultyData] = useState([]);
@@ -10,7 +10,6 @@ function FacultySearch() {
     }, []);
 
     useEffect(() => {
-        // Initialize DataTables when facultyData changes
         if (facultyData.length > 0) {
             $('#example').DataTable();
         }
@@ -62,6 +61,37 @@ function FacultySearch() {
     const updateIcon = <i className="fas fa-pencil-alt"></i>;
     const deleteIcon = <i className="fas fa-trash-alt"></i>;
 
+    const handleDelete = async (id) => {
+        try {
+            const response = await fetch(`/api/auth/users/${id}`, {
+                method: 'DELETE',
+            });
+            if (response.ok) {
+                // Remove the deleted user from the state
+                setFacultyData(facultyData.filter(user => user._id !== id));
+                
+                // Fetch the updated data after deletion
+                fetchFacultyData();
+    
+                // Optionally, you can also show a success message or toast
+                console.log('User deleted successfully');
+    
+                // Refresh the page
+                window.location.reload();
+            } else {
+                console.error('Failed to delete user');
+            }
+        } catch (error) {
+            console.error('Error deleting user:', error);
+        }
+    };
+    
+
+    const handleUpdate = (id) => {
+        // Add logic for updating user
+        console.log(`Update user with ID: ${id}`);
+    };
+
     return (
         <div style={body}>
             <table id='example' className='display'>
@@ -80,20 +110,24 @@ function FacultySearch() {
                     </tr>
                 </thead>
                 <tbody>
-                    {facultyData.map((users) => (
-                        <tr key={users._id}>
-                            <td>{users.username}</td>
-                            <td>{users.password}</td>
-                            <td>{users.name}</td>
-                            <td>{users.designation}</td>
-                            <td>{users.departmentName}</td>
-                            <td>{users.schoolCenterName}</td>
-                            <td>{users.email}</td>
-                            <td>{users.cabinNo}</td>
-                            <td>{users.photo}</td>
+                    {facultyData.map((user) => (
+                        <tr key={user._id}>
+                            <td>{user.username}</td>
+                            <td>{user.password}</td>
+                            <td>{user.name}</td>
+                            <td>{user.designation}</td>
+                            <td>{user.departmentName}</td>
+                            <td>{user.schoolCenterName}</td>
+                            <td>{user.email}</td>
+                            <td>{user.cabinNo}</td>
+                            <td>{user.photo}</td>
                             <td>
-                                <button style={icons}>{updateIcon}</button>
-                                <button style={icons}>{deleteIcon}</button>
+                                <button style={icons} onClick={() => handleUpdate(user._id)}>
+                                    {updateIcon}
+                                </button>
+                                <button style={icons} onClick={() => handleDelete(user._id)}>
+                                    {deleteIcon}
+                                </button>
                             </td>
                         </tr>
                     ))}

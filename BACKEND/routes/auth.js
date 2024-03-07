@@ -117,4 +117,18 @@ router.get("/all", async (req, res) => {
   }
 });
 
+// DELETE endpoint to delete a user by ID
+router.delete('/users/:id', async (req, res) => {
+  try {
+      const deletedUser = await User.findByIdAndDelete(req.params.id);
+      if (!deletedUser) {
+          return res.status(404).json({ message: 'User not found' });
+      }
+      return res.status(200).json({ message: 'User deleted successfully' });
+  } catch (error) {
+      console.error('Error deleting user:', error);
+      return res.status(500).json({ message: 'Server error' });
+  }
+});
+
 module.exports = router;
