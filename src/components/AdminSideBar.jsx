@@ -1,8 +1,47 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
+import { useNavigate } from "react-router-dom"; // Import useHistory for redirection
 import logo from "../ttmss.png";
 import adminimg from "../admin1.png";
 
 const AdminSideBar = ({ onSidebarClick, onFacultySearchClick, onShowHomeClick, onChangePasswordClick, onRegisterFacultyClick }) => {
+
+    const [userName, setUserName] = useState("");
+  const history = useNavigate();
+
+  useEffect(() => {
+    const fetchUserData = async () => {
+      try {
+        const userId = localStorage.getItem("userId");
+        if (!userId) {
+          console.error("User ID not found in localStorage");
+          return;
+        }
+
+        // Fetch user data using the userId
+        const response = await fetch(`/api/auth/userprofile?id=${userId}`);
+        const data = await response.json();
+
+        if (data.success) {
+          // Assuming 'name' is the field containing the username
+          setUserName(data.userProfile.username);
+        } else {
+          console.error("Error fetching user data:", data.message);
+        }
+      } catch (error) {
+        console.error("Error fetching user data:", error);
+      }
+    }; fetchUserData();
+  }, []);
+
+  const handleSignOut = () => {
+    // Remove userId from localStorage
+    localStorage.removeItem("userId");
+    console.log("userid removed from localstorage")
+
+    // Redirect to login page
+    history("/login");
+  };
+
     const logos = {
         height: "45px",
         width: "50px",
@@ -272,13 +311,14 @@ const AdminSideBar = ({ onSidebarClick, onFacultySearchClick, onShowHomeClick, o
                         <path d="M5 22h14a2 2 0 0 0 2-2v-9a1 1 0 0 0-.29-.71l-8-8a1 1 0 0 0-1.41 0l-8 8A1 1 0 0 0 3 11v9a2 2 0 0 0 2 2zm5-2v-5h4v5zm-5-8.59 7-7 7 7V20h-3v-5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v5H5z"></path>
                     </svg>
                     <button
-                        style={userDisplay}
-                        className="btn btn-secondary dropdown-toggle"
-                        type="button"
-                        data-bs-toggle="dropdown"
-                    >
-                        23MCA10066(Admin)
-                    </button>
+            style={userDisplay}
+            className="btn btn-secondary dropdown-toggle"
+            type="button"
+            data-bs-toggle="dropdown"
+            aria-expanded="false"
+          >
+            {userName ? `${userName} (Admin)` : "Loading..."}
+          </button>
                     <ul className="dropdown-menu" style={drop}>
                         <li style={pic}>
                             <a className="dropdown-item" href="#">
@@ -286,7 +326,7 @@ const AdminSideBar = ({ onSidebarClick, onFacultySearchClick, onShowHomeClick, o
                             </a>
                         </li>
                         <li style={signout}>
-                            <button style={sign}> Sign Out</button>
+                            <button style={sign} onClick={handleSignOut}> Sign Out</button>
                         </li>
                     </ul>
                 </div>

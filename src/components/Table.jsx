@@ -60,16 +60,23 @@ function Table() {
   };
 
   useEffect(() => {
-    // Fetch user profile data when component mounts
     const fetchUserProfile = async () => {
       try {
         const userId = localStorage.getItem("userId");
+
+        if (!userId) {
+          console.error("User ID not found in localStorage");
+          return;
+        }
+
         const response = await fetch(`/api/auth/userprofile?id=${userId}`);
         const data = await response.json();
+
         if (data.success) {
           setUserData(data.userProfile);
         } else {
-          console.error("Error fetching user profile data:", data.message);
+          console.error("User profile not found:", data.message);
+          setUserData(null);
         }
       } catch (error) {
         console.error("Error fetching user profile data:", error);
@@ -83,42 +90,44 @@ function Table() {
     <>
       <div style={mainsa}>
         <table style={tablewhole}>
-          <tr style={tabletr}>
-            <th colSpan={3} style={tablehr}>
-              Teacher Information
-            </th>
-          </tr>
-          {userData && (
-            <>
-              <tr style={tabletr}>
-                <td style={tabletd}>Name of the Faculty</td>
-                <td style={tabletd1}>{userData.name}</td>
-                <td rowSpan={"6"} style={tabletd2}>
-                  <img style={imgg} src={img} alt="" />
-                </td>
-              </tr>
-              <tr style={tabletr}>
-                <td style={tabletd}>Designation</td>
-                <td style={tabletd1}>{userData.designation}</td>
-              </tr>
-              <tr style={tabletr}>
-                <td style={tabletd}>Name of Department</td>
-                <td style={tabletd1}>{userData.departmentName}</td>
-              </tr>{" "}
-              <tr style={tabletr}>
-                <td style={tabletd}>School / Centre Name</td>
-                <td style={tabletd1}>{userData.schoolCenterName}</td>
-              </tr>{" "}
-              <tr style={tabletr}>
-                <td style={tabletd}>E-Mail Id</td>
-                <td style={tabletd1}>{userData.email}</td>
-              </tr>{" "}
-              <tr style={tabletr}>
-                <td style={tabletd}>Cabin Number</td>
-                <td style={tabletd1}>{userData.cabinNo}</td>
-              </tr>{" "}
-            </>
-          )}
+          <tbody>
+            <tr style={tabletr}>
+              <th colSpan={3} style={tablehr}>
+                Teacher Information
+              </th>
+            </tr>
+            {userData && (
+              <>
+                <tr style={tabletr}>
+                  <td style={tabletd}>Name of the Faculty</td>
+                  <td style={tabletd1}>{userData.name}</td>
+                  <td rowSpan={"6"} style={tabletd2}>
+                    <img style={imgg} src={img} alt="" />
+                  </td>
+                </tr>
+                <tr style={tabletr}>
+                  <td style={tabletd}>Designation</td>
+                  <td style={tabletd1}>{userData.designation}</td>
+                </tr>
+                <tr style={tabletr}>
+                  <td style={tabletd}>Name of Department</td>
+                  <td style={tabletd1}>{userData.departmentName}</td>
+                </tr>
+                <tr style={tabletr}>
+                  <td style={tabletd}>School / Centre Name</td>
+                  <td style={tabletd1}>{userData.schoolCenterName}</td>
+                </tr>
+                <tr style={tabletr}>
+                  <td style={tabletd}>E-Mail Id</td>
+                  <td style={tabletd1}>{userData.email}</td>
+                </tr>
+                <tr style={tabletr}>
+                  <td style={tabletd}>Cabin Number</td>
+                  <td style={tabletd1}>{userData.cabinNo}</td>
+                </tr>
+              </>
+            )}
+          </tbody>
         </table>
       </div>
       <Footer />

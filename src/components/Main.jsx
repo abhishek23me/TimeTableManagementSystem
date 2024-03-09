@@ -10,8 +10,13 @@ function Main() {
   const [showTable, setShowTable] = useState(false);
 
   const handleSidebarClick = () => {
-    console.log("Sidebar clicked");
+    console.log("profile clicked");
+    setShowContactUs(false);
+    setChangePassword(false);
     setShowTable(true);
+    setShowHome(false);
+    setShowTimeTable(false);
+
     // setShowHome(false);
   };
   const [showHome, setShowHome] = useState(false);

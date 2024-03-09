@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useState ,useEffect } from "react";
+import { useNavigate } from "react-router-dom"; // Import useHistory for redirection
 import logo from "../ttmss.png";
 import adminimg from "../admin1.png";
 
@@ -9,6 +10,44 @@ const SideBar = ({
   onContactUsClick,
   onTimeTableClick,
 }) => {
+
+  const [userName, setUserName] = useState("");
+  const history = useNavigate();
+
+  useEffect(() => {
+    const fetchUserData = async () => {
+      try {
+        const userId = localStorage.getItem("userId");
+        if (!userId) {
+          console.error("User ID not found in localStorage");
+          return;
+        }
+
+        // Fetch user data using the userId
+        const response = await fetch(`/api/auth/userprofile?id=${userId}`);
+        const data = await response.json();
+
+        if (data.success) {
+          // Assuming 'name' is the field containing the username
+          setUserName(data.userProfile.username);
+        } else {
+          console.error("Error fetching user data:", data.message);
+        }
+      } catch (error) {
+        console.error("Error fetching user data:", error);
+      }
+    }; fetchUserData();
+  }, []);
+
+  const handleSignOut = () => {
+    // Remove userId from localStorage
+    localStorage.removeItem("userId");
+    console.log("userid removed from localstorage")
+
+    // Redirect to login page
+    history("/login");
+  };
+
   const logos = {
     height: "45px",
     width: "50px",
@@ -291,7 +330,7 @@ const SideBar = ({
             data-bs-toggle="dropdown"
             aria-expanded="false"
           >
-            23MCA10066(Faculty)
+            {userName ? `${userName} (Faculty)` : "Loading..."}
           </button>
           <ul className="dropdown-menu" style={drop}>
             <li style={pic}>
@@ -300,7 +339,7 @@ const SideBar = ({
               </a>
             </li>
             <li style={signout}>
-              <button style={sign}> Sign Out</button>
+              <button style={sign} onClick={handleSignOut}> Sign Out</button>
             </li>
           </ul>
         </div>

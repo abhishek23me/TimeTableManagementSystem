@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import $ from 'jquery';
 import 'datatables.net';
 
@@ -63,20 +63,13 @@ function FacultySearch() {
 
     const handleDelete = async (id) => {
         try {
-            const response = await fetch(`/api/auth/users/${id}`, {
+            const response = await fetch(`/api/auth/userstodelete/${id}`, {
                 method: 'DELETE',
             });
             if (response.ok) {
-                // Remove the deleted user from the state
                 setFacultyData(facultyData.filter(user => user._id !== id));
-                
-                // Fetch the updated data after deletion
                 fetchFacultyData();
-    
-                // Optionally, you can also show a success message or toast
                 console.log('User deleted successfully');
-    
-                // Refresh the page
                 window.location.reload();
             } else {
                 console.error('Failed to delete user');
@@ -85,11 +78,9 @@ function FacultySearch() {
             console.error('Error deleting user:', error);
         }
     };
-    
 
     const handleUpdate = (id) => {
-        // Add logic for updating user
-        console.log(`Update user with ID: ${id}`);
+        window.location.href = `/updateregister/${id}`;
     };
 
     return (

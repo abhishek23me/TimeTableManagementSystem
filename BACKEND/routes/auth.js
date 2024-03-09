@@ -12,7 +12,7 @@ const JWT_SECRET = "abhiisagoodb$oy";
 router.post(
   "/createuser",
   [
-    body("username", "Enter a valid username"),
+    body("register", "Enter a valid username"),
     body("name", "Enter a valid name"),
     body("email", "Enter a valid email").isEmail(),
     body("facultyName", "Enter faculty name"),
@@ -118,7 +118,7 @@ router.get("/all", async (req, res) => {
 });
 
 // DELETE endpoint to delete a user by ID
-router.delete('/users/:id', async (req, res) => {
+router.delete('/userstodelete/:id', async (req, res) => {
   try {
       const deletedUser = await User.findByIdAndDelete(req.params.id);
       if (!deletedUser) {
@@ -130,6 +130,40 @@ router.delete('/users/:id', async (req, res) => {
       return res.status(500).json({ message: 'Server error' });
   }
 });
+
+// Update user endpoint
+router.put('/updateuser/:id', async (req, res) => {
+  const id = req.params.id;
+  const { username, name, email, facultyName, designation, departmentName, schoolCenterName, cabinNo, password } = req.body;
+  
+  try {
+      const updatedUser = await User.findByIdAndUpdate(
+          id,
+          {
+              username,
+              name,
+              email,
+              facultyName,
+              designation,
+              departmentName,
+              schoolCenterName,
+              cabinNo,
+              password, // You may want to hash this password before saving to DB
+          },
+          { new: true }
+      );
+
+      if (!updatedUser) {
+          return res.status(404).json({ error: 'User not found' });
+      }
+
+      res.status(200).json({ message: 'User updated successfully', user: updatedUser });
+  } catch (error) {
+      console.error('Error updating user:', error);
+      res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
 
 // Route to change password for a user using: PUT "/api/auth/changepassword"
 router.put("/changepassword", async (req, res) => {
@@ -173,6 +207,25 @@ router.get("/user", async (req, res) => {
   }
 });
 
+// Route to get user by ID
+router.get("/userbyid/:id", async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const user = await User.findById(id);
+
+    if (!user) {
+      return res.status(404).json({ success: false, message: "User not found" });
+    }
+
+    // If user found, return user data
+    res.json({ success: true, user });
+  } catch (error) {
+    console.error("Error fetching user by ID:", error);
+    res.status(500).json({ success: false, message: "Server error" });
+  }
+});
+
 
 // Route to get user profile by ID
 router.get("/userprofile", async (req, res) => {
@@ -193,6 +246,28 @@ router.get("/userprofile", async (req, res) => {
   }
 });
 
+// Route to update user profile by ID
+router.put("/updateuser", async (req, res) => {
+  const userId = req.query.id;
+  console.log("Received request to update user profile with ID:", userId);
 
+  try {
+    const updatedUser = await User.findByIdAndUpdate(userId, req.body, {
+      new: true,
+      runValidators: true,
+    });
+
+    if (!updatedUser) {
+      console.log("User profile not found with ID:", userId);
+      return res.status(404).json({ success: false, message: "User profile not found" });
+    }
+
+    console.log("Updated user profile:", updatedUser);
+    res.json({ success: true, updatedUser });
+  } catch (error) {
+    console.error("Error updating user profile:", error);
+    res.status(500).json({ success: false, message: "Server error" });
+  }
+});
 
 module.exports = router;

@@ -71,10 +71,12 @@ const Login = () => {
           // Redirect to the desired page
           handleNavigateToHome();
         } else {
+
           // Handle error when fetching user data
           console.error("Error fetching user data:", userData.message);
         }
       } else {
+        handleRefresh();          
         // Handle error, show error message to the user
         console.log(data.error);
       }
@@ -151,9 +153,10 @@ const Login = () => {
 
   const iconin3 = {
     marginLeft: "6px",
-    marginTop: "18px",
+    marginTop: "15px",
     color: "black",
     fontSize: "15px",
+    color:"white",
   };
 
   const form = {
@@ -337,12 +340,6 @@ const Login = () => {
             </form>
           </div>
           <div style={forgot}>
-            <a style={firstForgot} href="">
-              Forgot Password
-            </a>
-            <a style={secondForgot} href="">
-              Forgot LoginId
-            </a>
             <a style={thirdForgot} href="/">
               Go to Home Page
             </a>

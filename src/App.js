@@ -17,6 +17,7 @@ import TimeTable from './components/TimeTable';
 import Register from './components/Register';
 import AdminHome from './components/AdminHome';
 import FacultySearch from './components/FacultySearch';
+import UpdateRegister from './components/UpdateRegister';
 
 function App() {
   return (
@@ -33,6 +34,7 @@ function App() {
           <Route path="/timetable" element={<TimeTable />} />
           <Route path="/adminhome" element={<AdminHome />} />
           <Route path="/facultysearch" element={<FacultySearch />} />
+          <Route path="/updateregister/:id" element={<UpdateRegister />} />
         </Routes>
       </Router>
     </div>
