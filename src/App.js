@@ -18,6 +18,9 @@ import Register from './components/Register';
 import AdminHome from './components/AdminHome';
 import FacultySearch from './components/FacultySearch';
 import UpdateRegister from './components/UpdateRegister';
+import SubjectsSearch from './components/SubjectsSearch';
+import AddSubjects from './components/AddSubjects';
+import UpdateSubjects from './components/UpdateSubjects';
 
 function App() {
   return (
@@ -35,6 +38,9 @@ function App() {
           <Route path="/adminhome" element={<AdminHome />} />
           <Route path="/facultysearch" element={<FacultySearch />} />
           <Route path="/updateregister/:id" element={<UpdateRegister />} />
+          <Route path="/subjectssearch" element={<SubjectsSearch />} />
+          <Route path="/addsubjects" element={<AddSubjects />} />
+          <Route path="/updatesubjects/:id" element={<UpdateSubjects />} />
         </Routes>
       </Router>
     </div>

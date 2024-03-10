@@ -12,6 +12,8 @@ app.use(express.json())
 //available routes
 
 app.use('/api/auth',require('./routes/auth'))
+
+app.use('/api/subject',require('./routes/subject'))
   
 
 app.listen(port, () => {

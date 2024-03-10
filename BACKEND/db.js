@@ -1,15 +1,3 @@
-// const mongoose = require ('mongoose');
-
-// const mongoURI = 'mongodb+srv://ffcsmanagementteam:ffcs12345@cluster0.erotkdu.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0'
-
-// const connectToMongo  =()=>{
-//     mongoose.connect(mongoURI, ()=>{
-//         console.log("Connected to Mongo Successfully");
-//     })
-// }
-
-// module.exports = connectToMongo;
-
 const mongoose = require('mongoose');
 
 const connectDB = async () => {
