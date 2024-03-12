@@ -73,8 +73,6 @@ const SubjectSchema = new Schema ({
         required: true,
         default:"General"
     },
-    
-
 });
 
 const Subject = mongoose.model('subject', SubjectSchema);

@@ -21,6 +21,7 @@ import UpdateRegister from './components/UpdateRegister';
 import SubjectsSearch from './components/SubjectsSearch';
 import AddSubjects from './components/AddSubjects';
 import UpdateSubjects from './components/UpdateSubjects';
+import SubjectSelect from './components/SubjectSelect';
 
 function App() {
   return (
@@ -41,6 +42,7 @@ function App() {
           <Route path="/subjectssearch" element={<SubjectsSearch />} />
           <Route path="/addsubjects" element={<AddSubjects />} />
           <Route path="/updatesubjects/:id" element={<UpdateSubjects />} />
+          <Route path="/subjectselect" element={<SubjectSelect />} />
         </Routes>
       </Router>
     </div>
@@ -48,3 +50,6 @@ function App() {
 }
 
 export default App;
+
+
+

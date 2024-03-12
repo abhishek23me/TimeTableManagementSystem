@@ -15,6 +15,7 @@ app.use('/api/auth',require('./routes/auth'))
 
 app.use('/api/subject',require('./routes/subject'))
   
+app.use('/api/slot',require('./routes/slot'))
 
 app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`)
