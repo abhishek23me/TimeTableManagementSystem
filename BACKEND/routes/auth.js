@@ -188,6 +188,34 @@ router.put("/changepassword", async (req, res) => {
   }
 });
 
+// PUT endpoint to update user's selected subjects
+router.put('/:userId/subjects', async (req, res) => {
+  const { userId } = req.params;
+  const { subject1, subject2, subject3 } = req.body;
+
+  try {
+    // Find the user by userId
+    const user = await User.findById(userId);
+
+    if (!user) {
+      return res.status(404).json({ success: false, message: 'User not found' });
+    }
+
+    // Update the user's selected subjects
+    user.subject1 = subject1 || user.subject1;
+    user.subject2 = subject2 || user.subject2;
+    user.subject3 = subject3 || user.subject3;
+
+    // Save the updated user
+    const updatedUser = await user.save();
+
+    res.status(200).json({ success: true, user: updatedUser });
+  } catch (error) {
+    console.error('Error updating user subjects:', error);
+    res.status(500).json({ success: false, message: 'Server error' });
+  }
+});
+
 // Route to get user by email
 router.get("/user", async (req, res) => {
   const { email } = req.query;

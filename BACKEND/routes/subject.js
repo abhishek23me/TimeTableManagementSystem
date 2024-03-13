@@ -81,7 +81,17 @@ router.post("/addsubjects", async (req, res) => {
       project,
       credit,
       coursetype,
-      courseoption
+      courseoption,
+      // Default values for slots related fields
+      Fslotname: "empty",
+      Fslotday: "empty",
+      Fslottime: "empty",
+      Sslotname: "empty",
+      Sslotday: "empty",
+      Sslottime: "empty",
+      Tslotname: "empty",
+      Tslotday: "empty",
+      Tslottime:"empty",
     });
 
     const savedSubject = await newSubject.save();
@@ -89,6 +99,33 @@ router.post("/addsubjects", async (req, res) => {
   } catch (error) {
     console.error("Error adding subject:", error);
     res.status(500).json({ success: false, message: "Server error" });
+  }
+});
+
+// PUT /api/subject/addSlotData/:id
+// Update the subject with the given ID with the selected slot data
+router.put('/addSlotData/:id', async (req, res) => {
+  const { id } = req.params;
+  const { Fslotname, Fslotday, Fslottime } = req.body;
+
+  try {
+    const subject = await Subject.findById(id);
+
+    if (!subject) {
+      return res.status(404).json({ error: 'Subject not found' });
+    }
+
+    // Update the subject's slot data
+    subject.Fslotname = Fslotname || subject.Fslotname;
+    subject.Fslotday = Fslotday || subject.Fslotday;
+    subject.Fslottime = Fslottime || subject.Fslottime;
+
+    await subject.save();
+
+    res.json({ message: 'Slot data updated successfully', subject });
+  } catch (error) {
+    console.error('Error updating slot data:', error);
+    res.status(500).json({ error: 'Failed to update slot data' });
   }
 });
 
@@ -102,6 +139,25 @@ router.get("/allSubjects", async (req, res) => {
     res.status(500).send("Internal Server Error");
   }
 });
+
+router.put('/updateslots/:id', async (req, res) => {
+  const { id } = req.params;
+  const updatedSubjectData = req.body;
+
+  try {
+    let subject = await Subject.findByIdAndUpdate(id, updatedSubjectData, { new: true });
+
+    if (!subject) {
+      return res.status(404).json({ success: false, message: "Subject not found" });
+    }
+
+    res.json({ success: true, message: "Subject updated successfully", subject });
+  } catch (error) {
+    console.error("Error updating subject:", error);
+    res.status(500).json({ success: false, message: "Server error" });
+  }
+});
+
 
 // Route to update a subject
 router.put("/updatesubject/:id", async (req, res) => {
@@ -193,5 +249,5 @@ router.get("/subjects/:id", async (req, res) => {
 });
 
 
-module.exports = router;
 
+module.exports = router;
