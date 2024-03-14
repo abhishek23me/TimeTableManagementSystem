@@ -20,10 +20,10 @@ const SlotSchema = new Schema({
         type: String,
         required: true
     },
-    slotselection: {
-        type: String,
-        required: true
-    },
+    available: {
+        type: Boolean,
+        default: true
+    }
 });
 
 const Slot = mongoose.model('Slot', SlotSchema);

@@ -52,7 +52,6 @@ const Subject = require('../models/Subject');
 
 // Route to add credit information
 router.post("/addsubjects", async (req, res) => {
-  console.log("aagya");
   try {
     const {
       category,
