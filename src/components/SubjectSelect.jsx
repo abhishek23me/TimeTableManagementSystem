@@ -108,7 +108,7 @@ const SubjectSelect = () => {
       if (!selectedSubject) {
         throw new Error('Selected subject not found');
       }
-
+  
       // Create the updated subject object with all the selected slot data
       let updatedSubject = { ...selectedSubject }; // Get the existing subject data
       updatedSubject.Fslotname = selectedSlots[0]?.slotname || 'empty';
@@ -120,7 +120,7 @@ const SubjectSelect = () => {
       updatedSubject.Tslotname = selectedSlots[2]?.slotname || 'empty';
       updatedSubject.Tslotday = selectedSlots[2]?.slotday || 'empty';
       updatedSubject.Tslottime = selectedSlots[2]?.slottime || 'empty';
-
+  
       // Make the PUT request to update the subject in the database
       const subjectResponse = await fetch(`/api/subject/updateslots/${selectedSubject._id}`, {
         method: 'PUT',
@@ -129,41 +129,53 @@ const SubjectSelect = () => {
         },
         body: JSON.stringify(updatedSubject),
       });
-
+  
       const subjectData = await subjectResponse.json();
-
+  
       if (!subjectResponse.ok) {
         throw new Error(subjectData.message || 'Failed to update subject data');
       }
-
+  
       // Show an alert for successful subject update
       alert(`Slots selected and updated for the subject.`);
-
-      setSelectedSlots([]);
-      setSubject('');
-      setDropdowns([]);
-      setOkButtonDisabled(false);
-      // document.location.reload(); 
-
+  
+      // Update the availability of the selected subject
+      const updatedSubjectData = { ...selectedSubject, available: false };
+  
+      // Make the PUT request to update the subject's availability in the database
+      const updateAvailabilityResponse = await fetch(`/api/subject/updateAvailability/${selectedSubject._id}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(updatedSubjectData),
+      });
+  
+      const updateAvailabilityData = await updateAvailabilityResponse.json();
+  
+      if (!updateAvailabilityResponse.ok) {
+        throw new Error(updateAvailabilityData.message || 'Failed to update subject availability');
+      }
+  
       // Now, update the user with the selected subject ID
       const selectedSubjectId = selectedSubject._id;
-
+  
       // Get the userId from localStorage
       const userId = localStorage.getItem('userId');
       if (!userId) {
         throw new Error('User ID not found in localStorage');
       }
-
+  
       // Fetch the user by ID to get current subject fields
       const userResponse = await fetch(`/api/auth/userbyid/${userId}`);
       const userData = await userResponse.json();
-
+  
       if (!userResponse.ok) {
         throw new Error(userData.message || 'Failed to fetch user');
       }
-
+  
       const currentUser = userData.user;
-
+  
       // Update the subject fields based on availability
       if (!currentUser.subject1) {
         currentUser.subject1 = selectedSubjectId;
@@ -174,7 +186,7 @@ const SubjectSelect = () => {
       } else {
         alert('User has already selected 3 subjects');
       }
-
+  
       // Make a PUT request to update the User document with the new subject ID
       const userUpdateResponse = await fetch(`/api/auth/${userId}/subjects`, {
         method: 'PUT',
@@ -183,37 +195,46 @@ const SubjectSelect = () => {
         },
         body: JSON.stringify(currentUser),
       });
-
+  
       const userUpdateData = await userUpdateResponse.json();
-
+  
       if (!userUpdateResponse.ok) {
         throw new Error(userUpdateData.message || 'Failed to update user');
       }
-
+  
       // Show an alert for successful user update
       alert(`Subject updated successfully for the user!`);
+  
+      // Reset form after submission
+      setSelectedSlots([]);
+      setSubject('');
+      setDropdowns([]);
+      setOkButtonDisabled(false);
+  
+      // Refresh subjects data after submission
+      fetchSubjectsData();
 
     } catch (error) {
       console.error('Error updating slots and user subject:', error);
       setError('Error updating slots and user subject. Please try again later.');
     }
   };
+  
+  const fetchSubjectsData = async () => {
+    try {
+      const response = await fetch('/api/subject/allAvailableSubjects');
+      if (!response.ok) {
+        throw new Error('Failed to fetch available subjects');
+      }
+      const data = await response.json();
+      setSubjectsData(data.subjects);
+    } catch (error) {
+      console.error('Error fetching subjects data:', error);
+      setError('Error fetching subjects data. Please try again later.');
+    }
+  };
 
   useEffect(() => {
-    const fetchSubjectsData = async () => {
-      try {
-        const response = await fetch('/api/subject/allSubjects');
-        if (!response.ok) {
-          throw new Error('Failed to fetch subjects');
-        }
-        const data = await response.json();
-        setSubjectsData(data.subjects);
-      } catch (error) {
-        console.error('Error fetching subjects data:', error);
-        setError('Error fetching subjects data. Please try again later.');
-      }
-    };
-
     fetchSubjectsData();
   }, []);
 

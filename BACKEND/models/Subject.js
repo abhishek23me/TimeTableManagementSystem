@@ -106,6 +106,10 @@ const SubjectSchema = new Schema({
     type: String,
     required: false,
     default: "empty"  // Set default value to empty
+  },
+  available: {
+    type: Boolean,
+    default: true
   }
 });
 

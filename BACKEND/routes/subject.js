@@ -92,6 +92,7 @@ router.post("/addsubjects", async (req, res) => {
       Tslotname: "empty",
       Tslotday: "empty",
       Tslottime:"empty",
+      available: true,
     });
 
     const savedSubject = await newSubject.save();
@@ -248,6 +249,39 @@ router.get("/subjects/:id", async (req, res) => {
   }
 });
 
+// GET all available subjects
+router.get('/allAvailableSubjects', async (req, res) => {
+  try {
+    // Find all subjects where available is true
+    const subjects = await Subject.find({ available: true });
+    res.json({ subjects });
+  } catch (error) {
+    console.error('Error fetching available subjects:', error);
+    res.status(500).json({ message: 'Failed to fetch available subjects' });
+  }
+});
 
+// Route to update subject availability
+router.put("/updateAvailability/:subjectId", async (req, res) => {
+  try {
+    const { subjectId } = req.params;
+    const updatedSubject = req.body;
+
+    const subject = await Subject.findById(subjectId);
+
+    if (!subject) {
+      return res.status(404).json({ success: false, message: "Subject not found" });
+    }
+
+    subject.available = updatedSubject.available;
+
+    const savedSubject = await subject.save();
+
+    res.json({ success: true, message: "Subject availability updated successfully", subject: savedSubject });
+  } catch (error) {
+    console.error("Error updating subject availability:", error);
+    res.status(500).json({ success: false, message: "Server error" });
+  }
+});
 
 module.exports = router;
