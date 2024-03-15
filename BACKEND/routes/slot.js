@@ -107,16 +107,38 @@ router.get('/allAvailableSlots', async (req, res) => {
   }
 });
 
-// PUT request to update all slots availability to false
-router.put('/updateAllSlotsAvailability', async (req, res) => {
+// PUT request to update selected slots availability to false
+router.put('/updateSelectedSlotsAvailability', async (req, res) => {
   try {
-    // Update all slots to set available to false
-    await Slot.updateMany({}, { available: false });
+    const { slotIds } = req.body;
 
-    res.status(200).json({ message: 'All slots availability updated to false' });
+    // Validate that slotIds is an array
+    if (!Array.isArray(slotIds)) {
+      return res.status(400).json({ message: "Invalid data format. Expected an array of slot IDs." });
+    }
+
+    // Update availability for each slot
+    const updatedPromises = slotIds.map(async (slotId) => {
+      const updatedSlot = await Slot.findByIdAndUpdate(
+        slotId,
+        { available: false }, // Change to false
+        { new: true }
+      );
+      return updatedSlot;
+    });
+
+    // Wait for all updates to finish
+    const updatedResults = await Promise.all(updatedPromises);
+
+    // Check if any updates failed
+    const failedUpdates = updatedResults.filter((result) => !result);
+    if (failedUpdates.length > 0) {
+      return res.status(404).json({ message: "Some slots could not be updated" });
+    }
+
+    res.status(200).json({ message: 'Selected slots availability updated successfully' });
   } catch (error) {
-    console.error('Error updating all slots availability:', error);
-    res.status(500).json({ error: 'Failed to update all slots availability' });
+    res.status(500).json({ error: error.message });
   }
 });
 

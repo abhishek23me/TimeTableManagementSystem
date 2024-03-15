@@ -65,47 +65,59 @@ const SubjectSchema = new Schema({
   Fslotname: {
     type: String,
     required: false,
-    default: "empty"  // Set default value to empty
+    default: "empty"  // Set default value to "empty"
   },
   Fslotday: {
     type: String,
     required: false,
-    default: "empty"  // Set default value to empty
+    default: "empty"  // Set default value to "empty"
   },
   Fslottime: {
     type: String,
     required: false,
-    default: "empty"  // Set default value to empty
+    default: "empty"  // Set default value to "empty"
   },
   Sslotname: {
     type: String,
     required: false,
-    default: "empty"  // Set default value to empty
+    default: "empty"  // Set default value to "empty"
   },
   Sslotday: {
     type: String,
     required: false,
-    default: "empty"  // Set default value to empty
+    default: "empty"  // Set default value to "empty"
   },
   Sslottime: {
     type: String,
     required: false,
-    default: "empty"  // Set default value to empty
+    default: "empty"  // Set default value to "empty"
   },
   Tslotname: {
     type: String,
     required: false,
-    default: "empty"  // Set default value to empty
+    default: "empty"  // Set default value to "empty"
   },
   Tslotday: {
     type: String,
     required: false,
-    default: "empty"  // Set default value to empty
+    default: "empty"  // Set default value to "empty"
   },
   Tslottime: {
     type: String,
     required: false,
-    default: "empty"  // Set default value to empty
+    default: "empty"  // Set default value to "empty"
+  },
+  FslotId: {
+    type: Schema.Types.ObjectId,
+    default: null
+  },
+  SslotId: {
+    type: Schema.Types.ObjectId,
+    default: null
+  },
+  TslotId: {
+    type: Schema.Types.ObjectId,
+    default: null
   },
   available: {
     type: Boolean,
