@@ -17,6 +17,7 @@ function Main() {
     setShowTable(true);
     setShowHome(false);
     setShowTimeTable(false);
+    setShowGenTimeTable(false);
 
     // setShowHome(false);
   };
@@ -28,6 +29,7 @@ function Main() {
     setChangePassword(false);
     setShowContactUs(false);
     setShowTimeTable(false);
+    setShowGenTimeTable(false);
   };
 
   const [showChangePassword, setChangePassword] = useState(false);
@@ -78,8 +80,8 @@ function Main() {
   return (
     <div>
       <SideBar onSidebarClick={handleSidebarClick}  onShowHomeClick={handleHomeClick} onChangePasswordClick={handleChangePasswordClick} onContactUsClick={handleContactUsClick} onTimeTableClick={handleTimeTableClick} onGenTimeTableClick={handleGenTimeTableClick} />
+      {!showTable && !showChangePassword && !showContactUs && !showTimeTable && !showGenTimeTable  && <Spotlight/>}
       {showTable && <Table />}
-      {!showTable && !showChangePassword && !showContactUs && !showTimeTable && !showGenTimeTable && <Spotlight/>}
       {showChangePassword && <ChangePassword/> }
       {showContactUs && <ContactUs/> }
       {showTimeTable && <TimeTable/> }
