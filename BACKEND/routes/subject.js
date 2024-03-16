@@ -16,6 +16,7 @@ router.post("/addsubjects", async (req, res) => {
       tutorial,
       project,
       credit,
+      coursevenue,
       coursetype,
       courseoption
     } = req.body;
@@ -31,6 +32,7 @@ router.post("/addsubjects", async (req, res) => {
       tutorial,
       project,
       credit,
+      coursevenue,
       coursetype,
       courseoption,
       // Default values for slots related fields
@@ -140,6 +142,7 @@ router.put("/updatesubject/:id", async (req, res) => {
     tutorial,
     project,
     credit,
+    coursevenue,
     coursetype,
     courseoption,
     FslotId,
@@ -176,6 +179,7 @@ router.put("/updatesubject/:id", async (req, res) => {
     subject.tutorial = tutorial;
     subject.project = project;
     subject.credit = credit;
+    subject.coursevenue = coursevenue;
     subject.coursetype = coursetype;
     subject.courseoption = courseoption;
     subject.FslotId = FslotId || subject.FslotId;

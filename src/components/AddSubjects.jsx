@@ -101,6 +101,7 @@ function AddSubjects() {
     tutorial: "",
     project: "",
     credit: "",
+    coursevenue: "",
     coursetype: "",
     courseoption: "",
   });
@@ -110,6 +111,14 @@ function AddSubjects() {
     setSubjectInfo({
       ...subjectInfo,
       [name]: value,
+    });
+  };
+
+  const handleCourseVenueChange = (event) => {
+    const { value } = event.target;
+    setSubjectInfo({
+      ...subjectInfo,
+      coursevenue: value.toUpperCase(), // Convert to uppercase
     });
   };
 
@@ -141,6 +150,7 @@ function AddSubjects() {
           tutorial: "",
           project: "",
           credit: "",
+          coursevenue: "",
           coursetype: "",
           courseoption: "",
         });
@@ -246,6 +256,14 @@ function AddSubjects() {
                 value={subjectInfo.credit}
                 onChange={handleChange}
               />
+              <input
+                type="text"
+                name="coursevenue"
+                placeholder="Course Venue"
+                style={input}
+                value={subjectInfo.coursevenue}
+                onChange={handleCourseVenueChange} // Updated event handler
+              />
               <select name="coursetype" style={input} value={subjectInfo.coursetype} onChange={handleChange}>
                 <option value="">Course Type</option>
                 {ltpjOptions.map((option, idx) => (
@@ -268,4 +286,3 @@ function AddSubjects() {
 }
 
 export default AddSubjects;
-

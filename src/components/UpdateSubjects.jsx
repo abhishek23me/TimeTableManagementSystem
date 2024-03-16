@@ -13,6 +13,7 @@ function UpdateSubjects() {
         tutorial: '',
         project: '',
         credit: '',
+        coursevenue: '',
         coursetype: '',
         courseoption: '',
     });
@@ -41,6 +42,7 @@ function UpdateSubjects() {
                     tutorial: data.subject.tutorial,
                     project: data.subject.project,
                     credit: data.subject.credit,
+                    coursetype: data.subject.coursevenue,
                     coursetype: data.subject.coursetype,
                     courseoption: data.subject.courseoption,
                 });
@@ -54,6 +56,14 @@ function UpdateSubjects() {
 
     const onChange = (e) => {
         setSubjectDetails({ ...subjectDetails, [e.target.name]: e.target.value });
+    };
+
+    const handleCourseVenueChange = (e) => {
+        const { value } = e.target;
+        setSubjectDetails({
+            ...subjectDetails,
+            coursevenue: value.toUpperCase(), // Convert to uppercase
+        });
     };
 
     const handleSubmit = async (e) => {
@@ -129,9 +139,7 @@ function UpdateSubjects() {
         fontSize: '20px',
         transition: 'all 0.3s ease',
         borderColor: inputFocus ? '#21b6ca' : 'lightgrey',
-        boxShadow: inputFocus
-            ? 'inset 0px 0px 2px 2px rgba(26, 188, 156, 0.25)'
-            : 'none',
+        boxShadow: inputFocus ? 'inset 0px 0px 2px 2px rgba(26, 188, 156, 0.25)' : 'none',
         '::placeholder': {
             color: '#999',
         },
@@ -309,6 +317,20 @@ function UpdateSubjects() {
                             style={input}
                             value={subjectDetails.credit}
                             onChange={onChange}
+                            onFocus={() => setInputFocus(true)}
+                            onBlur={() => setInputFocus(false)}
+                        />
+                    </div>
+                    <div style={row}>
+                        <i className="fas fa-award" style={icons}></i>
+                        <input
+                            type="text"
+                            placeholder="Course Venue"
+                            name="coursevenue"
+                            required
+                            style={input}
+                            value={subjectDetails.coursevenue}
+                            onChange={handleCourseVenueChange} // Handle change for Course Venue
                             onFocus={() => setInputFocus(true)}
                             onBlur={() => setInputFocus(false)}
                         />

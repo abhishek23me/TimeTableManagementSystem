@@ -62,6 +62,11 @@ const SubjectSchema = new Schema({
     required: true,
     default: "General"
   },
+  coursevenue: {
+    type: String,
+    required: true,
+    default: "General"
+  },
   Fslotname: {
     type: String,
     required: false,
