@@ -199,6 +199,11 @@ const SubjectSelect = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+    // Check if any dropdown does not have a slot selected
+    if (selectedSlots.some((slot) => !slot.slotId)) {
+      alert("Please select a slot for all subjects before submitting.");
+      return; // Return early if any slot is not selected
+    }
     try {
       // Find the subject by title
       const selectedSubject = subjectsData.find(

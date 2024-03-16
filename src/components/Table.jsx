@@ -4,6 +4,7 @@ import Footer from "./Footer";
 
 function Table() {
   const [userData, setUserData] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   const tablewhole = {
     width: "90%",
@@ -66,6 +67,7 @@ function Table() {
 
         if (!userId) {
           console.error("User ID not found in localStorage");
+          setLoading(false);
           return;
         }
 
@@ -80,11 +82,17 @@ function Table() {
         }
       } catch (error) {
         console.error("Error fetching user profile data:", error);
+      } finally {
+        setLoading(false); // Set loading to false regardless of success or error
       }
     };
 
     fetchUserProfile();
   }, []);
+
+  if (loading) {
+    return <p>Loading...</p>;
+  }
 
   return (
     <>

@@ -15,9 +15,6 @@ const generateRandomCode = () => {
 
 const Login = () => {
   const history = useNavigate();
-  const handleNavigateToHome = () => {
-    history("/main");
-  };
 
   const [captchaCode, setCaptchaCode] = useState(generateRandomCode());
   const [username, setUsername] = useState("");
@@ -29,21 +26,21 @@ const Login = () => {
 
   const handleLogin = async (e) => {
     e.preventDefault();
-    
+
     // Your backend API URL for login
     const loginUrl = "/api/auth/login";
     // Your backend API URL for fetching user by email
     const getUserUrl = "/api/auth/user";
-  
+
     // Get the entered CAPTCHA value
     const enteredCaptcha = document.getElementById("user").value;
-  
+
     if (enteredCaptcha !== captchaCode) {
       // Show an alert or error message if CAPTCHA doesn't match
       alert("Please enter the correct CAPTCHA code.");
       return;
     }
-  
+
     try {
       const response = await fetch(loginUrl, {
         method: "POST",
@@ -52,31 +49,35 @@ const Login = () => {
         },
         body: JSON.stringify({ email: username, password }),
       });
-  
+
       const data = await response.json();
-  
+
       if (data.success) {
         // Save the token to local storage or session storage
         localStorage.setItem("token", data.authtoken);
-  
+
         // Fetch user by email to get the user ID
         const getUserResponse = await fetch(`${getUserUrl}?email=${username}`);
         const userData = await getUserResponse.json();
-  
+
         if (userData.success) {
           const userId = userData.user._id;
           // Save the user ID to local storage
           localStorage.setItem("userId", userId);
-  
-          // Redirect to the desired page
-          handleNavigateToHome();
-        } else {
 
+          // Check for specific credentials and redirect accordingly
+          if (username === "abhishek.23mca10066@vitbhopal.ac.in" && password === "@ffcsproject21") {
+            history(`/adminhome/${userId}`);
+          } else {
+            // Redirect to the desired page
+            history("/main");
+          }
+        } else {
           // Handle error when fetching user data
           console.error("Error fetching user data:", userData.message);
         }
       } else {
-        handleRefresh();          
+        handleRefresh();
         // Handle error, show error message to the user
         console.log(data.error);
       }
@@ -85,14 +86,14 @@ const Login = () => {
       console.error("Error:", error);
     }
   };
-   
 
   const fot = () => {
-    var a = document.getElementById('user');
+    var a = document.getElementById("user");
     var b = a.value.toUpperCase();
     a.value = b;
-  }
+  };
 
+  // Your styling code here...
   const loginBox = {
     height: "387px",
     width: "524px",
@@ -156,7 +157,7 @@ const Login = () => {
     marginTop: "15px",
     color: "black",
     fontSize: "15px",
-    color:"white",
+    color: "white",
   };
 
   const form = {
@@ -182,7 +183,7 @@ const Login = () => {
     marginTop: "15px",
   };
   const common3 = {
-    width: "233px",
+    width: "176px",
     height: "45px",
     paddingLeft: "7px",
     border: "1px solid #b1b1b1",
@@ -201,10 +202,21 @@ const Login = () => {
     marginTop: "15px",
   };
 
+  const common5 = {
+    width: "82px",
+    height: "45px",
+    paddingLeft: "9px",
+    border: "1px solid #b1b1b1",
+    margin: "auto",
+    marginTop: "15px",
+    fontSize: "38px",
+    color: "red",
+  };
+
   const maa = {
     display: "flex",
     margin: "auto",
-    width: "316px",
+    width: "300px",
   };
 
   const button = {
@@ -296,7 +308,6 @@ const Login = () => {
                     style={iconin2}
                     className="fa fa-eye text-danger fw-bold"
                     id="passwordIcon"
-                    // onclick="javascript:toggleEye();"
                     aria-hidden="false"
                   ></i>
                 </div>
@@ -306,11 +317,12 @@ const Login = () => {
                   <input
                     style={common3}
                     type="text"
-                    id="captcha"
+                    id="passcode"
                     name="captcha"
                     value={captchaCode}
                     readOnly
                   />
+
                   <div style={icon3}>
                     <i
                       style={iconin3}
@@ -329,8 +341,6 @@ const Login = () => {
                   id="user"
                   name="username"
                   onInput={fot}
-                  // value={username}
-                  // onChange={handleUsernameChange}
                   required
                 />
               </div>

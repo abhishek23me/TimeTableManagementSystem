@@ -41,6 +41,7 @@ function Main() {
     setShowHome(false);
     setShowContactUs(false);
     setShowTimeTable(false);
+    setShowGenTimeTable(false);
 
   };
 
@@ -52,6 +53,7 @@ function Main() {
     setShowTable(false);
     setShowHome(false);
     setShowTimeTable(false);
+    setShowGenTimeTable(false);
   }
 
   const [showTimeTable, setShowTimeTable] = useState(false);
@@ -62,6 +64,7 @@ function Main() {
     setChangePassword(false);
     setShowTable(false);
     setShowHome(false);
+    setShowGenTimeTable(false);
 
   };
 
@@ -90,7 +93,7 @@ function Main() {
   );
 }
 
-export default Main
+export default Main;
 
 
 // import React, { useState, useEffect } from "react";

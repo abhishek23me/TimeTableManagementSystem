@@ -36,7 +36,7 @@ function App() {
           <Route path="/ChangePassword" element={<ChangePassword />} />
           <Route path="/contacts" element={<ContactUs />} />
           <Route path="/timetable" element={<TimeTable />} />
-          <Route path="/adminhome" element={<AdminHome />} />
+          <Route path="/adminhome/:id" element={<AdminHome />} />
           <Route path="/facultysearch" element={<FacultySearch />} />
           <Route path="/updateregister/:id" element={<UpdateRegister />} />
           <Route path="/subjectssearch" element={<SubjectsSearch />} />
