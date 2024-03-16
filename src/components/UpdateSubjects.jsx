@@ -42,7 +42,7 @@ function UpdateSubjects() {
                     tutorial: data.subject.tutorial,
                     project: data.subject.project,
                     credit: data.subject.credit,
-                    coursetype: data.subject.coursevenue,
+                    coursevenue: data.subject.coursevenue,
                     coursetype: data.subject.coursetype,
                     courseoption: data.subject.courseoption,
                 });
