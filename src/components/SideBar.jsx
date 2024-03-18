@@ -351,3 +351,208 @@ const SideBar = ({
 };
 
 export default SideBar;
+
+// import React, { useState, useEffect } from "react";
+
+// const body = {
+//   border: "3px solid grey",
+//   width: "90%",
+//   margin: "35px",
+//   borderRadius: "5px ",
+//   boxShadow: "1px 1px 3px 3px rgb(0 0 0/15%)",
+//   padding: "0px",
+//   backgroundColor: "white",
+// };
+
+// const body1 = {
+//   border: "3px solid blue",
+//   width: "90%",
+//   margin: "35px",
+//   borderRadius: "5px ",
+//   textAlign: "center",
+//   boxShadow: "1px 1px 3px 3px rgb(0 0 0/15%)",
+//   padding: "0px",
+//   height: "350px",
+//   fontSize: "20px",
+//   backgroundColor: "#ffffcc",
+// };
+// const thead = {
+//   fontSize: "23px",
+//   fontWeight: "bold",
+//   borderLeft: "1px solid grey",
+//   color: "white",
+//   padding: "10px",
+//   margin: "0px",
+// };
+// const thro1 = {
+//   backgroundColor: "rgb(49 98 176)",
+// };
+// const thro2 = {
+//   fontSize: "23px",
+// };
+// const tabletd = {
+//   backgroundColor: "white",
+//   borderLeft: "1px solid grey",
+//   paddingLeft: "10px",
+//   paddingTop: "10px",
+//   paddingBottom: "10px",
+// };
+// const list = {
+//   listStyleType: "none",
+//   textAlign: "left",
+//   margin: "0",
+//   padding: "5px",
+// };
+
+// const tdgrey = {
+//   backgroundColor: "#e2e2e2",
+//   borderRight: "1px solid blue",
+//   borderBottom: "1px solid blue",
+// };
+// const tr1 = {
+//   backgroundColor: "#ccccff",
+// };
+
+// const tr2 = {
+//   borderRight: "1px solid blue",
+//   borderBottom: "1px solid blue",
+// };
+
+// function TimeTable() {
+//   const [timetableData, setTimetableData] = useState([]);
+//   const [loading, setLoading] = useState(true);
+//   const [error, setError] = useState(null);
+
+//   useEffect(() => {
+//     const fetchTimetableData = async () => {
+//       try {
+//         let userId = localStorage.getItem("userId");
+
+//         // Check if userId is a valid ObjectId format
+//         if (!isValidObjectId(userId)) {
+//           throw new Error("Invalid userId format");
+//         }
+
+//         const response = await fetch(`/api/auth/fetchtimetable/${userId}`);
+//         if (!response.ok) {
+//           throw new Error("Failed to fetch timetable data");
+//         }
+
+//         const data = await response.json();
+
+//         if (data.success) {
+//           const subjectsData = [];
+
+//           // Fetch subject data for each subject ID
+//           for (let i = 1; i <= 3; i++) {
+//             const subjectId = data[`subject${i}`];
+//             if (subjectId) {
+//               const subjectResponse = await fetch(`/api/subject/fetchsubject/${subjectId}`);
+//               if (!subjectResponse.ok) {
+//                 throw new Error(`Failed to fetch subject with ID: ${subjectId}`);
+//               }
+//               const subjectData = await subjectResponse.json();
+//               subjectsData.push(subjectData);
+//             }
+//           }
+
+//           // Combine timetable data with subjects data
+//           const updatedTimetableData = subjectsData.map((subjectData, index) => {
+//             return {
+//               category: subjectData.category,
+//               coursetitle: subjectData.coursetitle,
+//               lecture: subjectData.lecture,
+//               tutorial: subjectData.tutorial,
+//               practical: subjectData.practical,
+//               project: subjectData.project,
+//               credit: subjectData.credit,
+//               coursecode: subjectData.coursecode,
+//               courseoption: subjectData.courseoption,
+//               ntr: subjectData.ntr,
+//               Fslotname: subjectData.Fslotname,
+//               Fslotday: subjectData.Fslotday,
+//               Fslottime: subjectData.Fslottime,
+//               Sslotname: subjectData.Sslotname,
+//               Sslotday: subjectData.Sslotday,
+//               Sslottime: subjectData.Sslottime,
+//               Tslotname: subjectData.Tslotname,
+//               Tslotday: subjectData.Tslotday,
+//               Tslottime: subjectData.Tslottime,
+//               subjectData, // Include the full subjectData object
+//             };
+//           });
+
+//           setTimetableData(updatedTimetableData);
+//         } else {
+//           throw new Error(data.message);
+//         }
+//       } catch (error) {
+//         console.error("Error fetching timetable data:", error.message);
+//         setError("Failed to fetch timetable data");
+//       } finally {
+//         setLoading(false);
+//       }
+//     };
+
+//     fetchTimetableData();
+//   }, []);
+
+//   // Function to check if a string is a valid ObjectId
+//   const isValidObjectId = (id) => {
+//     const checkForHexRegExp = new RegExp("^[0-9a-fA-F]{24}$");
+//     return checkForHexRegExp.test(id);
+//   };
+
+//   return (
+//     <>
+//       {loading ? (
+//         <p>Loading...</p>
+//       ) : error ? (
+//         <p>{error}</p>
+//       ) : (
+//         <table style={body}>
+//           <thead>
+//             <tr style={thro1}>
+//               <th style={thead}>SI.No</th>
+//               <th style={thead}>Class Group</th>
+//               <th style={thead}>Course</th>
+//               <th style={thead}>
+//                 <ul style={list}>
+//                   <li>Lecture</li>
+//                   <li>Practical</li>
+//                   <li>Tutorial</li>
+//                 </ul>
+//               </th>
+//               <th style={thead}>Category</th>
+//               <th style={thead}>Course Option</th>
+//               <th style={thead}>Class NTR</th>
+//               <th style={thead}>Slot-Venue</th>
+//             </tr>
+//           </thead>
+//           <tbody>
+//             {timetableData.map((subject, index) => (
+//               <tr key={index} style={thro2}>
+//                 <td style={tabletd}>{index + 1}</td>
+//                 <td style={tabletd}>{subject.category}</td>
+//                 <td style={tabletd}>{subject.coursetitle}</td>
+//                 <td style={tabletd}>
+//                   <ul style={list}>
+//                     <li>{subject.lecture}</li>
+//                     <li>{subject.practical}</li>
+//                     <li>{subject.tutorial}</li>
+//                   </ul>
+//                 </td>
+//                 <td style={tabletd}>{subject.category}</td>
+//                 <td style={tabletd}>{subject.courseoption}</td>
+//                 <td style={tabletd}>{subject.ntr}</td>
+//                 <td style={tabletd}>{subject.slotVenue}</td>
+//               </tr>
+//             ))}
+//           </tbody>
+//         </table>
+//       )}
+//     </>
+//   );
+// }
+
+// export default TimeTable;

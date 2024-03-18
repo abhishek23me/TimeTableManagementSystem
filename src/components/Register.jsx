@@ -6,7 +6,7 @@ function Register() {
     username: "",
     name: "",
     email: "",
-    facultyName: "",
+    // facultyName: "",
     designation: "",
     departmentName: "",
     schoolCenterName: "",
@@ -103,20 +103,56 @@ function Register() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-  
+
+    // Validation
+    if (!validateUsername(credentials.username)) {
+      alert("Username must have at least one character and one integer.");
+      return;
+    }
+
+    if (!validateAlphabetsOnly(credentials.name)) {
+      alert("Name should contain only alphabets and maximum of 30 characters.");
+      return;
+    }
+
+    if (!validateAlphabetsOnly(credentials.schoolCenterName)) {
+      alert("School/Center name should contain only alphabets and maximum of 30 characters.");
+      return;
+    }
+
+    if (!validateCabinNo(credentials.cabinNo)) {
+      alert("Cabin No must be only integer and not more than five digits.");
+      return;
+    }
+
+    if (!validatePassword(credentials.password)) {
+      alert("Password must be maximum 20 characters and contain at least one integer, one special symbol, and one character.");
+      return;
+    }
+
     try {
-      const response = await fetch(`http://localhost:3000/api/auth/createuser`, {
+      // Check if the username already exists
+      const response = await fetch(`http://localhost:3000/api/auth/checkusername/${credentials.username}`);
+      const data = await response.json();
+
+      if (response.ok && data.exists) {
+        alert("Username already exists. Please choose a different username.");
+        return;
+      }
+
+      // Proceed with registration if the username is unique
+      const createUserResponse = await fetch(`http://localhost:3000/api/auth/createuser`, {
         method: 'POST',
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify(credentials),
       });
-  
-      const json = await response.json();
+
+      const json = await createUserResponse.json();
       console.log(json);
-  
-      if (response.ok) {
+
+      if (createUserResponse.ok) {
         // Redirect to login page if user creation is successful
         navigate('/login');
       } else {
@@ -128,12 +164,32 @@ function Register() {
       // Handle network errors or other exceptions here
     }
   };
-  
+
+  // Validation Functions
+  const validateUsername = (username) => {
+    const regex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{1,}$/;
+    return regex.test(username);
+  };
+
+  const validateAlphabetsOnly = (value) => {
+    const regex = /^[A-Za-z ]{1,30}$/;
+    return regex.test(value);
+  };
+
+  const validateCabinNo = (cabinNo) => {
+    const regex = /^\d{1,5}$/;
+    return regex.test(cabinNo);
+  };
+
+  const validatePassword = (password) => {
+    const regex = /^(?=.*\d)(?=.*[!@#$%^&*])(?=.*[a-zA-Z]).{1,20}$/;
+    return regex.test(password);
+  };
 
   return (
     <div style={container}>
       <div style={wrapper}>
-        <div style={title}><span>Teacher Registration Form</span></div>
+        <div style={title}><span>Faculty Registration Form</span></div>
         <form style={forms} onSubmit={handleSubmit}>
           <div style={row}>
             <i className="fas fa-user" style={icons}></i>

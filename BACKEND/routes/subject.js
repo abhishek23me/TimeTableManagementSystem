@@ -1,6 +1,27 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
-const Subject = require('../models/Subject');
+const Subject = require("../models/Subject");
+const User = require("../models/User");
+
+// Route to fetch subject data by ID
+router.get('/fetchsubject/:subjectId', async (req, res) => {
+  try {
+    const subjectId = req.params.subjectId;
+
+    // Query the database to find the subject by its ID
+    const subject = await Subject.findById(subjectId);
+
+    if (!subject) {
+      return res.status(404).json({ success: false, message: 'Subject not found' });
+    }
+
+    // If subject is found, send it in the response
+    res.status(200).json({ success: true, subject });
+  } catch (error) {
+    console.error('Error fetching subject:', error.message);
+    res.status(500).json({ success: false, message: 'Internal Server Error' });
+  }
+});
 
 // Route to add credit information
 router.post("/addsubjects", async (req, res) => {
@@ -18,7 +39,7 @@ router.post("/addsubjects", async (req, res) => {
       credit,
       coursevenue,
       coursetype,
-      courseoption
+      courseoption,
     } = req.body;
 
     const newSubject = new Subject({
@@ -52,7 +73,11 @@ router.post("/addsubjects", async (req, res) => {
     });
 
     const savedSubject = await newSubject.save();
-    res.json({ success: true, message: "Subject added successfully", subject: savedSubject });
+    res.json({
+      success: true,
+      message: "Subject added successfully",
+      subject: savedSubject,
+    });
   } catch (error) {
     console.error("Error adding subject:", error);
     res.status(500).json({ success: false, message: "Server error" });
@@ -61,7 +86,7 @@ router.post("/addsubjects", async (req, res) => {
 
 // PUT /api/subject/addSlotData/:id
 // Update the subject with the given ID with the selected slot data
-router.put('/addSlotData/:id', async (req, res) => {
+router.put("/addSlotData/:id", async (req, res) => {
   const { id } = req.params;
   const { slotId, slotname, slotday, slottime } = req.body;
 
@@ -69,7 +94,7 @@ router.put('/addSlotData/:id', async (req, res) => {
     const subject = await Subject.findById(id);
 
     if (!subject) {
-      return res.status(404).json({ error: 'Subject not found' });
+      return res.status(404).json({ error: "Subject not found" });
     }
 
     // Update the subject's slot data
@@ -92,10 +117,10 @@ router.put('/addSlotData/:id', async (req, res) => {
 
     await subject.save();
 
-    res.json({ message: 'Slot data updated successfully', subject });
+    res.json({ message: "Slot data updated successfully", subject });
   } catch (error) {
-    console.error('Error updating slot data:', error);
-    res.status(500).json({ error: 'Failed to update slot data' });
+    console.error("Error updating slot data:", error);
+    res.status(500).json({ error: "Failed to update slot data" });
   }
 });
 
@@ -110,18 +135,26 @@ router.get("/allSubjects", async (req, res) => {
   }
 });
 
-router.put('/updateslots/:id', async (req, res) => {
+router.put("/updateslots/:id", async (req, res) => {
   const { id } = req.params;
   const updatedSubjectData = req.body;
 
   try {
-    let subject = await Subject.findByIdAndUpdate(id, updatedSubjectData, { new: true });
+    let subject = await Subject.findByIdAndUpdate(id, updatedSubjectData, {
+      new: true,
+    });
 
     if (!subject) {
-      return res.status(404).json({ success: false, message: "Subject not found" });
+      return res
+        .status(404)
+        .json({ success: false, message: "Subject not found" });
     }
 
-    res.json({ success: true, message: "Subject updated successfully", subject });
+    res.json({
+      success: true,
+      message: "Subject updated successfully",
+      subject,
+    });
   } catch (error) {
     console.error("Error updating subject:", error);
     res.status(500).json({ success: false, message: "Server error" });
@@ -198,7 +231,11 @@ router.put("/updatesubject/:id", async (req, res) => {
     // Save updated subject
     subject = await subject.save();
 
-    res.json({ success: true, message: "Subject updated successfully", subject });
+    res.json({
+      success: true,
+      message: "Subject updated successfully",
+      subject,
+    });
   } catch (error) {
     console.error("Error updating subject:", error);
     res.status(500).json({ success: false, message: "Server error" });
@@ -213,7 +250,9 @@ router.delete("/subjectstodelete/:id", async (req, res) => {
     const subject = await Subject.findByIdAndDelete(id);
 
     if (!subject) {
-      return res.status(404).json({ success: false, message: "Subject not found" });
+      return res
+        .status(404)
+        .json({ success: false, message: "Subject not found" });
     }
 
     // If subject found and deleted successfully
@@ -232,7 +271,9 @@ router.get("/subjects/:id", async (req, res) => {
     const subject = await Subject.findById(id);
 
     if (!subject) {
-      return res.status(404).json({ success: false, message: "Subject not found" });
+      return res
+        .status(404)
+        .json({ success: false, message: "Subject not found" });
     }
 
     // If subject found, return subject data
@@ -244,14 +285,14 @@ router.get("/subjects/:id", async (req, res) => {
 });
 
 // GET all available subjects
-router.get('/allAvailableSubjects', async (req, res) => {
+router.get("/allAvailableSubjects", async (req, res) => {
   try {
     // Find all subjects where available is true
     const subjects = await Subject.find({ available: true });
     res.json({ subjects });
   } catch (error) {
-    console.error('Error fetching available subjects:', error);
-    res.status(500).json({ message: 'Failed to fetch available subjects' });
+    console.error("Error fetching available subjects:", error);
+    res.status(500).json({ message: "Failed to fetch available subjects" });
   }
 });
 
@@ -264,14 +305,20 @@ router.put("/updateAvailability/:subjectId", async (req, res) => {
     const subject = await Subject.findById(subjectId);
 
     if (!subject) {
-      return res.status(404).json({ success: false, message: "Subject not found" });
+      return res
+        .status(404)
+        .json({ success: false, message: "Subject not found" });
     }
 
     subject.available = updatedSubject.available;
 
     const savedSubject = await subject.save();
 
-    res.json({ success: true, message: "Subject availability updated successfully", subject: savedSubject });
+    res.json({
+      success: true,
+      message: "Subject availability updated successfully",
+      subject: savedSubject,
+    });
   } catch (error) {
     console.error("Error updating subject availability:", error);
     res.status(500).json({ success: false, message: "Server error" });
@@ -280,19 +327,45 @@ router.put("/updateAvailability/:subjectId", async (req, res) => {
 
 // PUT /api/subject/updateSelectedSlotsAvailability
 // Update the availability of selected slots
-router.put('/updateSelectedSlotsAvailability', async (req, res) => {
+router.put("/updateSelectedSlotsAvailability", async (req, res) => {
   const { slotIds } = req.body;
 
   try {
-    await Subject.updateMany(
-      { _id: { $in: slotIds } },
-      { available: false }
-    );
+    await Subject.updateMany({ _id: { $in: slotIds } }, { available: false });
 
-    res.json({ success: true, message: "Slots availability updated successfully" });
+    res.json({
+      success: true,
+      message: "Slots availability updated successfully",
+    });
   } catch (error) {
-    console.error('Error updating selected slots availability:', error);
-    res.status(500).json({ success: false, message: "Failed to update selected slots availability" });
+    console.error("Error updating selected slots availability:", error);
+    res
+      .status(500)
+      .json({
+        success: false,
+        message: "Failed to update selected slots availability",
+      });
+  }
+});
+
+// Sample endpoint to fetch subject data by ID
+router.get("/:id", async (req, res) => {
+  const subjectId = req.params.id;
+
+  try {
+    // Fetch subject data from the database based on subjectId
+    const subject = await Subject.findById(subjectId);
+
+    if (!subject) {
+      return res.status(404).json({ success: false, message: "Subject not found" });
+    }
+
+    // Return the subject data
+    res.status(200).json({ success: true, subject });
+  } catch (error) {
+    // Handle errors
+    console.error(error);
+    res.status(500).json({ success: false, message: "Server Error" });
   }
 });
 

@@ -122,7 +122,7 @@ const styles = {
     boxSizing: "border-box",
   },
   submitButton: {
-    backgroundColor: "#4CAF50",
+    backgroundColor:"rgb(77 126 205)",
     color: "white",
     padding: "12px 20px",
     border: "none",

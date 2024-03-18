@@ -23,7 +23,12 @@ const SlotSchema = new Schema({
     available: {
         type: Boolean,
         default: true
-    }
+    },
+    date: {
+        type: Date,
+        default: Date.now
+    },
+    
 });
 
 const Slot = mongoose.model('Slot', SlotSchema);

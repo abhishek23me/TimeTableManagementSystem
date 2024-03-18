@@ -12,7 +12,7 @@ const Home = () => {
   };
 
   const handleNavigateToRegister = () => {
-    history("/adminhome");
+    history(`/login`);
   };
 
   const first = {

@@ -258,7 +258,7 @@ function SubjectsSearch() {
   const itemStyle = {
     backgroundColor: "#f7f7f7",
     height: "60px",
-    fontSize: "30.5px",
+    fontSize: "20.5px",
     margin: "0px 0px 7px",
     fontWeight: "730",
     color: "blue",
@@ -268,7 +268,7 @@ function SubjectsSearch() {
   const thro1 = {
     backgroundColor: "rgb(49 98 176)",
     color: "white",
-    fontSize: "15px",
+    fontSize: "12px",
   };
 
   const icons = {

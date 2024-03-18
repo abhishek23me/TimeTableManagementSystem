@@ -5,7 +5,8 @@ const { Schema } = mongoose;
 const UserSchema = new Schema({
     username: {
         type: String,
-        required: true
+        required: true,
+        unique: true
     },
     name: {
         type: String,
@@ -30,7 +31,8 @@ const UserSchema = new Schema({
     },
     cabinNo: {
         type: String,
-        required: true
+        required: true,
+        unique:true
     },
     password: {
         type: String,
@@ -47,7 +49,11 @@ const UserSchema = new Schema({
     subject3: {
         type: String,
         default: null
-    }
+    },
+    date: {
+        type: Date,
+        default: Date.now
+    },
 });
 
 const User = mongoose.model('user', UserSchema);

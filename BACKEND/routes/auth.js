@@ -1,12 +1,35 @@
 const express = require("express");
 const User = require("../models/User");
+const Subject = require("../models/Subject.js");
 const router = express.Router();
 const { body, validationResult } = require("express-validator");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const fetchuser = require('../middleware/fetchuser.js');
+const mongoose = require('mongoose');
 
 const JWT_SECRET = "abhiisagoodb$oy";
+
+router.get('/fetchtimetable/:userId', async (req, res) => {
+  const { userId } = req.params;
+
+  // Check if userId is in the correct ObjectId format
+  if (!mongoose.Types.ObjectId.isValid(userId)) {
+    return res.status(400).json({ success: false, message: 'Invalid userId format' });
+  }
+
+  try {
+    const user = await User.findById(userId);
+    if (!user) {
+      return res.status(404).json({ success: false, message: 'User not found' });
+    }
+
+    res.json({ success: true, user });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ success: false, message: 'Internal Server Error' });
+  }
+});
 
 // Route 1: create a user using: POST "/api/auth/createuser". No Login Required
 router.post(
@@ -296,6 +319,78 @@ router.put("/updateuser", async (req, res) => {
     console.error("Error updating user profile:", error);
     res.status(500).json({ success: false, message: "Server error" });
   }
+});
+
+// Route to get timetable data for the user
+router.get("/fetchh/:userId", async (req, res) => {
+  const { userId } = req.params;
+
+  try {
+    const user = await User.findById(userId);
+
+    if (!user) {
+      return res.status(404).json({ success: false, message: "User not found" });
+    }
+
+    // Extract subject IDs from user schema
+    const { subject1, subject2, subject3 } = user;
+
+    // Fetch subject details based on subject IDs
+    const subjectPromises = [Subject.findById(subject1), Subject.findById(subject2), Subject.findById(subject3)];
+
+    // Execute all promises in parallel
+    const subjects = await Promise.all(subjectPromises);
+
+    const timetableData = {
+      success: true,
+      timetableData: subjects.map(subject => {
+        if (!subject) {
+          return null; // Return null for subjects that are not found
+        }
+
+        return {
+          category: subject.category || "N/A",
+          coursetitle: subject.coursetitle || "N/A",
+          coursecode: subject.coursecode || "N/A",
+          ntr: subject.ntr || "N/A",
+          version: subject.version || "N/A",
+          lecture: subject.lecture || "N/A",
+          practical: subject.practical || "N/A",
+          tutorial: subject.tutorial || "N/A",
+          project: subject.project || "N/A",
+          credit: subject.credit || "N/A",
+          coursevenue: subject.coursevenue || "N/A",
+          coursetype: subject.coursetype || "N/A",
+          courseoption: subject.courseoption || "N/A",
+          Fslotname: subject.Fslotname || "N/A",
+          Fslotday: subject.Fslotday || "N/A",
+          Fslottime: subject.Fslottime || "N/A",
+          Sslotname: subject.Sslotname || "N/A",
+          Sslotday: subject.Sslotday || "N/A",
+          Sslottime: subject.Sslottime || "N/A",
+          Tslotname: subject.Tslotname || "N/A",
+          Tslotday: subject.Tslotday || "N/A",
+          Tslottime: subject.Tslottime || "N/A",
+        };
+      }),
+    };
+
+    res.json(timetableData);
+  } catch (error) {
+    console.error("Error fetching timetable data for user:", error);
+    res.status(500).json({ success: false, message: "Server error" });
+  }
+});
+
+// Endpoint to check if a username exists
+router.get('/checkusername/:username', (req, res) => {
+  const { username } = req.params;
+
+  // Check if the username exists in the database
+  const userExists = users.some(user => user.username === username);
+
+  // Respond with JSON indicating whether the username exists
+  res.json({ exists: userExists });
 });
 
 module.exports = router;

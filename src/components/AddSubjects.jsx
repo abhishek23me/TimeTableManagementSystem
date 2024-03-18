@@ -88,7 +88,11 @@ function AddSubjects() {
     "Lecture & Tutorial hour only",
     "Project only",
   ];
+
   const CourseOptions = ["Regular", "Not Regular"];
+
+  // Dropdown options for coursesemester
+  const semesterOptions = ["1st", "2nd", "3rd", "4th", "5th", "6th", "7th", "8th"];
 
   const [subjectInfo, setSubjectInfo] = useState({
     category: "",
@@ -104,6 +108,7 @@ function AddSubjects() {
     coursevenue: "",
     coursetype: "",
     courseoption: "",
+    coursesemester: "", // New field for coursesemester
   });
 
   const handleChange = (event) => {
@@ -153,6 +158,7 @@ function AddSubjects() {
           coursevenue: "",
           coursetype: "",
           courseoption: "",
+          coursesemester: "", // Clear coursesemester after submission
         });
       } else {
         console.error(data.message);
@@ -262,23 +268,52 @@ function AddSubjects() {
                 placeholder="Course Venue"
                 style={input}
                 value={subjectInfo.coursevenue}
-                onChange={handleCourseVenueChange} // Updated event handler
+                onChange={handleCourseVenueChange}
               />
-              <select name="coursetype" style={input} value={subjectInfo.coursetype} onChange={handleChange}>
+              <select
+                name="coursetype"
+                style={input}
+                value={subjectInfo.coursetype}
+                onChange={handleChange}
+              >
                 <option value="">Course Type</option>
                 {ltpjOptions.map((option, idx) => (
-                  <option key={idx} value={option}>{option}</option>
+                  <option key={idx} value={option}>
+                    {option}
+                  </option>
                 ))}
               </select>
-              <select name="courseoption" style={input} value={subjectInfo.courseoption} onChange={handleChange}>
+              <select
+                name="courseoption"
+                style={input}
+                value={subjectInfo.courseoption}
+                onChange={handleChange}
+              >
                 <option value="">Course Option</option>
                 {CourseOptions.map((option, idx) => (
-                  <option key={idx} value={option}>{option}</option>
+                  <option key={idx} value={option}>
+                    {option}
+                  </option>
+                ))}
+              </select>
+              <select
+                name="coursesemester"
+                style={input}
+                value={subjectInfo.coursesemester}
+                onChange={handleChange}
+              >
+                <option value="">Course Semester</option>
+                {semesterOptions.map((option, idx) => (
+                  <option key={idx} value={option}>
+                    {option}
+                  </option>
                 ))}
               </select>
             </div>
           </div>
-          <button type="submit" style={sub}>Submit</button>
+          <button type="submit" style={sub}>
+            Submit
+          </button>
         </form>
       </div>
     </div>
