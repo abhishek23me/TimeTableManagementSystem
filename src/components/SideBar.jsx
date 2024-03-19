@@ -337,7 +337,7 @@ const SideBar = ({
             data-bs-toggle="dropdown"
             aria-expanded="false"
           >
-            {userName ? `${userName}` (Faculty) : "Loading..."}
+            {userName ? `${userName} (Faculty)` : "Loading..."}
           </button>
           <ul className="dropdown-menu" style={drop}>
             <li style={pic}>

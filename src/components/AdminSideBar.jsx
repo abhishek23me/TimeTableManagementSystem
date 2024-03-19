@@ -385,7 +385,7 @@ const AdminSideBar = ({
                         data-bs-toggle="dropdown"
                         aria-expanded="false"
                     >
-                        {userName ? `${userName}` (Admin) : "Loading..."}
+                        {userName ? `${userName} (Admin)` : "Loading..."}
                     </button>
                     <ul className="dropdown-menu" style={drop}>
                         <li style={pic}>
