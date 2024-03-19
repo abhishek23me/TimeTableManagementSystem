@@ -19,7 +19,7 @@ const Navbar = () => {
 
   return (
     <div style={navbar}>
-      <img style={logos} src={logo} alt="logo not found" />
+      <img style={logos} src={logo} alt="logo not found" /><p style={{marginTop:"-39px",color: "white",fontSize:"22px",marginLeft:"80px"}}>TTMS </p>
     </div>  
     
   );

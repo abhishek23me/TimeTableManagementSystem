@@ -1,12 +1,13 @@
 import React from "react";
 
 function ContactUs() {
-  const dashbordStyle = {
+  const dashbordStyles = {
     backgroundColor: "white",
-    marginLeft: "2%",
+    marginLeft: "20px",
+    marginTop:"30px",
     margin: "7px",
     height: "90px",
-    width: "96%",
+    width: "97%",
     boxShadow: "4px 4px 7px 7px rgb(0 0 0/15%)",
     borderRadius: "5px",
   };
@@ -34,7 +35,7 @@ function ContactUs() {
     padding: "25px",
     // marginTop:"20px",
     marginLeft: "20px",
-    width: "350px",
+    width: "310px",
     height: "150px",
     borderRadius: "10px ",
     color: "blue",
@@ -67,8 +68,8 @@ function ContactUs() {
 
   return (
     <>
-      <div style={dashbordStyle}>
-        <div style={itemStyle}>Contact Detail</div>
+      <div style={dashbordStyles}>
+        <div style={itemStyle}>Contact Details</div>
       </div>
       <section style={aboutStyle}>
         <div style={contentStyle}>

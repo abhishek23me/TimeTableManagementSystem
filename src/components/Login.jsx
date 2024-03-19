@@ -19,11 +19,11 @@ const Login = () => {
   const [captchaCode, setCaptchaCode] = useState(generateRandomCode());
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
 
   const handleRefresh = () => {
     setCaptchaCode(generateRandomCode());
   };
-
   const handleLogin = async (e) => {
     e.preventDefault();
 
@@ -79,12 +79,17 @@ const Login = () => {
       } else {
         handleRefresh();
         // Handle error, show error message to the user
+        alert("Incorrect username or password");
         console.log(data.error);
       }
     } catch (error) {
       // Handle network errors or other exceptions
       console.error("Error:", error);
     }
+  };
+
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
   };
 
   const fot = () => {
@@ -107,7 +112,7 @@ const Login = () => {
   const text1 = {
     fontWeight: "500",
     fontSize: "22px",
-    height: "48px",
+    height: "55px",
     marginLeft: "0px",
     backgroundColor: "#80808017",
   };
@@ -115,6 +120,7 @@ const Login = () => {
   const txt1 = {
     marginTop: "10px",
     marginLeft: "11px",
+    
   };
 
   const usernameStyle = {
@@ -122,22 +128,24 @@ const Login = () => {
   };
 
   const icon1 = {
-    height: "23.5px",
-    width: "21px",
-    border: "1px solid #b1b1b1",
+    height: "26.5px",
+    width: "23px",
+    border: "1.5px solid #b1b1b1",
   };
 
   const icon2 = {
-    height: "23.5px",
-    width: "21px",
-    border: "1px solid #b1b1b1",
+    height: "26.5px",
+    width: "23px",
+    border: "1.5px solid #b1b1b1",
     marginTop: "15px",
+    color: "red",
+    cursor: "pointer",
   };
 
   const icon3 = {
     height: "45px",
-    width: "25px",
-    border: "1px solid #b1b1b1",
+    width: "29px",
+    border: "1.5px solid #b1b1b1",
     marginTop: "14.8px",
     backgroundColor: "green",
   };
@@ -167,7 +175,7 @@ const Login = () => {
 
   const common1 = {
     width: "414px",
-    height: "20px",
+    height: "26px",
     paddingLeft: "5px",
     fontSize: "12px",
     border: "1px solid #b1b1b1",
@@ -176,7 +184,7 @@ const Login = () => {
 
   const common2 = {
     width: "414px",
-    height: "20px",
+    height: "26px",
     paddingLeft: "5px",
     fontSize: "12px",
     border: "1px solid #b1b1b1",
@@ -195,7 +203,7 @@ const Login = () => {
 
   const common4 = {
     width: "437px",
-    height: "20px",
+    height: "26px",
     border: "1px solid #b1b1b1",
     paddingLeft: "5px",
     fontSize: "12px",
@@ -222,7 +230,7 @@ const Login = () => {
   const button = {
     backgroundColor: "#0d6efd",
     borderRadius: "3px",
-    marginLeft: "78.6%",
+    marginLeft: "76.4%",
     border: "none",
     marginTop: "14px",
     height: "28px",
@@ -296,17 +304,17 @@ const Login = () => {
                 <input
                   placeholder="Password"
                   style={common2}
-                  type="password"
+                  type={showPassword ? "text" : "password"}
                   id="password"
                   name="password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   required
                 />
-                <div style={icon2}>
+                <div style={icon2} onClick={togglePasswordVisibility}>
                   <i
                     style={iconin2}
-                    className="fa fa-eye text-danger fw-bold"
+                    className={`fa ${showPassword ? 'fa-eye-slash' : 'fa-eye'} text-danger fw-bold`}
                     id="passwordIcon"
                     aria-hidden="false"
                   ></i>

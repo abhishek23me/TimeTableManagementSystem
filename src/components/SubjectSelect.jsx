@@ -70,8 +70,8 @@ const SubjectSelect = () => {
           }
 
           // Make the PUT request to update the subject in the database
-          const response = await fetch(
-            `/api/subject/updateslots/${selectedSubject._id}`,
+          const response = await fetch(`
+            /api/subject/updateslots/${selectedSubject._id}`,
             {
               method: "PUT",
               headers: {
@@ -88,9 +88,9 @@ const SubjectSelect = () => {
           }
 
           // Show an alert for successful update
-          alert(
-            `Slot ${selectedSlot.slotname} selected and updated in the database.`
-          );
+          alert(`
+            Slot ${selectedSlot.slotname} selected and updated in the database.
+          `);
 
           // Update the availability of the selected slot
           const updatedSlots = allSlots.map((slot) => {
@@ -171,9 +171,9 @@ const SubjectSelect = () => {
         }
 
         // Show an alert for successful update
-        alert(
-          `Slot ${selectedSlot.slotname} selected and updated in the database.`
-        );
+        alert(`
+          Slot ${selectedSlot.slotname} selected and updated in the database.
+        `);
 
         // Update the availability of the selected slot
         const updatedSlots = allSlots.map((slot) => {
@@ -494,18 +494,19 @@ const SubjectSelect = () => {
   }
 
   return (
+    <>
     <div
       style={{
         background: "#f0f0f0",
         boxShadow: "0 4px 8px rgba(0,0,0,0.1)",
         padding: "20px",
-        marginTop: "24px",
+        marginTop: "30px",
         width: "700px",
         margin: "0 auto",
       }}
     >
-      {subjectsSelected ? (
-        <h3>All subjects are already selected.</h3>
+      {subjectsSelected ? ( 
+        <h3 style={{paddingTop:"10px"}}> All subjects are already selected.</h3>
       ) : (
         <>
           <div style={styles.title}>
@@ -519,7 +520,7 @@ const SubjectSelect = () => {
               <select
                 value={subject}
                 onChange={handleSubjectChange}
-                style={styles.input}
+                style={styles.input }
               >
                 <option value="">Select Subject</option>
                 {subjectsData.map((subject) => (
@@ -558,7 +559,9 @@ const SubjectSelect = () => {
           {error && <p style={{ color: "red" }}>{error}</p>}
         </>
       )}
+      
     </div>
+    </>
   );
 };
 
@@ -579,8 +582,8 @@ const styles = {
     width: "47px",
     height: "6%",
     color: "#fff",
-    marginTop: "16px",
-    marginLeft: "6px",
+    marginTop: "10px",
+    marginLeft: "1px",
     fontSize: "24px",
     background: "#127faa",
     border: "1px solid #1ba2b4",

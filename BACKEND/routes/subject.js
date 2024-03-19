@@ -40,6 +40,7 @@ router.post("/addsubjects", async (req, res) => {
       coursevenue,
       coursetype,
       courseoption,
+      coursesemester,
     } = req.body;
 
     const newSubject = new Subject({
@@ -56,6 +57,7 @@ router.post("/addsubjects", async (req, res) => {
       coursevenue,
       coursetype,
       courseoption,
+      coursesemester,
       // Default values for slots related fields
       FslotId: null,
       Fslotname: "empty",
@@ -178,6 +180,7 @@ router.put("/updatesubject/:id", async (req, res) => {
     coursevenue,
     coursetype,
     courseoption,
+    coursesemester,
     FslotId,
     Fslotname,
     Fslotday,
@@ -214,6 +217,7 @@ router.put("/updatesubject/:id", async (req, res) => {
     subject.credit = credit;
     subject.coursevenue = coursevenue;
     subject.coursetype = coursetype;
+    subject.coursesemester = coursesemester;
     subject.courseoption = courseoption;
     subject.FslotId = FslotId || subject.FslotId;
     subject.Fslotname = Fslotname || subject.Fslotname;
@@ -281,6 +285,37 @@ router.get("/subjects/:id", async (req, res) => {
   } catch (error) {
     console.error("Error fetching subject by ID:", error);
     res.status(500).json({ success: false, message: "Server error" });
+  }
+});
+
+router.get('/checkcoursecode/:coursecode', async (req, res) => {
+  const { coursecode } = req.params;
+
+  try {
+    // Check if the course code exists in the database
+    const subject = await Subject.findOne({ coursecode });
+
+    // Respond with JSON indicating whether the course code exists
+    res.json({ exists: !!subject }); // If subject is found, exists will be true, otherwise false
+  } catch (error) {
+    console.error("Error checking course code:", error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});  //mca10055  payu1@gmail.com
+
+// Endpoint to check if an NTR exists
+router.get('/checkntr/:ntr', async (req, res) => {
+  const { ntr } = req.params;
+
+  try {
+    // Check if the NTR exists in the database
+    const subject = await Subject.findOne({ ntr });
+
+    // Respond with JSON indicating whether the NTR exists
+    res.json({ exists: !!subject }); // If subject is found, exists will be true, otherwise false
+  } catch (error) {
+    console.error("Error checking NTR:", error);
+    res.status(500).json({ error: 'Internal Server Error' });
   }
 });
 

@@ -8,6 +8,7 @@ const jwt = require("jsonwebtoken");
 const fetchuser = require('../middleware/fetchuser.js');
 const mongoose = require('mongoose');
 
+
 const JWT_SECRET = "abhiisagoodb$oy";
 
 router.get('/fetchtimetable/:userId', async (req, res) => {
@@ -278,6 +279,29 @@ router.get("/userbyid/:id", async (req, res) => {
 });
 
 
+
+
+
+// Endpoint to check if a username exists
+router.get('/checkusername/:username', async (req, res) => {
+  const { username } = req.params;
+
+  try {
+    // Check if the username exists in the database
+    const user = await User.findOne({ username });
+
+    // Respond with JSON indicating whether the username exists
+    res.json({ exists: !!user }); // If user is found, exists will be true, otherwise false
+  } catch (error) {
+    console.error("Error checking username:", error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
+
+
+
+
 // Route to get user profile by ID
 router.get("/userprofile", async (req, res) => {
   const userId = req.query.id;
@@ -379,6 +403,38 @@ router.get("/fetchh/:userId", async (req, res) => {
   } catch (error) {
     console.error("Error fetching timetable data for user:", error);
     res.status(500).json({ success: false, message: "Server error" });
+  }
+});
+
+
+// Endpoint to check if an email exists
+router.get('/checkemail/:email', async (req, res) => {
+  const { email } = req.params;
+
+  try {
+    // Check if the email exists in the database
+    const user = await User.findOne({ email });
+
+    // Respond with JSON indicating whether the email exists
+    res.json({ exists: !!user }); // If user is found, exists will be true, otherwise false
+  } catch (error) {
+    console.error("Error checking email:", error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+// Endpoint to check if a cabin number exists
+router.get('/checkcabin/:cabinNo', async (req, res) => {
+  const { cabinNo } = req.params;
+
+  try {
+    // Check if the cabin number exists in the database
+    const user = await User.findOne({ cabinNo });
+
+    // Respond with JSON indicating whether the cabin number exists
+    res.json({ exists: !!user }); // If user is found, exists will be true, otherwise false
+  } catch (error) {
+    console.error("Error checking cabin number:", error);
+    res.status(500).json({ error: 'Internal Server Error' });
   }
 });
 

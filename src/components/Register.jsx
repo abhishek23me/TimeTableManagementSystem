@@ -15,6 +15,8 @@ function Register() {
   });
 
   const [inputFocus, setInputFocus] = useState(false);
+  const [showPassword, setShowPassword] = useState(false); // State to track password visibility
+
   const navigate = useNavigate();
 
   const container = {
@@ -130,28 +132,57 @@ function Register() {
       return;
     }
 
+
     try {
       // Check if the username already exists
-      const response = await fetch(`http://localhost:3000/api/auth/checkusername/${credentials.username}`);
-      const data = await response.json();
-
-      if (response.ok && data.exists) {
+      const usernameResponse = await fetch(`http://localhost:3000/api/auth/checkusername/${credentials.username}`);
+      if (!usernameResponse.ok) {
+        throw new Error('Network response was not ok');
+      }
+      const usernameData = await usernameResponse.json();
+    
+      if (usernameData.exists) {
         alert("Username already exists. Please choose a different username.");
         return;
       }
 
-      // Proceed with registration if the username is unique
-      const createUserResponse = await fetch(`http://localhost:3000/api/auth/createuser`, {
+
+          // Check if the cabin number already exists
+    const cabinResponse = await fetch(`http://localhost:3000/api/auth/checkcabin/${credentials.cabinNo}`);
+    if (!cabinResponse.ok) {
+      throw new Error('Network response was not ok');
+    }
+    const cabinData = await cabinResponse.json();
+
+    if (cabinData.exists) {
+      alert("Cabin number already exists. Please choose a different cabin number.");
+      return;
+    }
+
+      // Check if the email already exists
+// Check if the email already exists
+const emailResponse = await fetch(`http://localhost:3000/api/auth/checkemail/${credentials.email}`);
+if (!emailResponse.ok) {
+  throw new Error('Network response was not ok');
+}
+const emailData = await emailResponse.json();
+
+if (emailData.exists) {
+  alert("Email already exists. Please use a different email address.");
+  return;
+}
+
+ const createUserResponse = await fetch(`http://localhost:3000/api/auth/createuser`, {
         method: 'POST',
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify(credentials),
       });
-
+    
       const json = await createUserResponse.json();
       console.log(json);
-
+    
       if (createUserResponse.ok) {
         // Redirect to login page if user creation is successful
         navigate('/login');
@@ -162,12 +193,19 @@ function Register() {
     } catch (error) {
       console.error("Error creating user:", error);
       // Handle network errors or other exceptions here
+      alert("An error occurred while processing your request. Please try again later.");
     }
+    
+  };
+
+   // Toggle password visibility
+   const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
   };
 
   // Validation Functions
   const validateUsername = (username) => {
-    const regex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{1,}$/;
+    const regex = /^(?=.[A-Za-z])(?=.\d)[A-Za-z\d]{1,}$/;
     return regex.test(username);
   };
 
@@ -182,7 +220,7 @@ function Register() {
   };
 
   const validatePassword = (password) => {
-    const regex = /^(?=.*\d)(?=.*[!@#$%^&*])(?=.*[a-zA-Z]).{1,20}$/;
+    const regex = /^(?=.\d)(?=.[!@#$%^&])(?=.[a-zA-Z]).{1,20}$/;
     return regex.test(password);
   };
 
@@ -290,9 +328,9 @@ function Register() {
             />
           </div>
           <div style={row}>
-            <i className="fas fa-lock" style={icons}></i>
+            <i className="fas fa-lock" style={icons} onClick={togglePasswordVisibility}></i>
             <input
-              type="password"
+              type={showPassword ? "text" : "password"} // Show plain text if showPassword is true
               placeholder="Password"
               name="password"
               required

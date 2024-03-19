@@ -29,16 +29,33 @@ function FacultySearch() {
     }
   };
 
-  const body = {
-    width: "94%",
-    margin: "25px",
-    marginRight: "3px",
-    borderRadius: "5px ",
-    paddingLeft: "15px",
-    paddingBottom: "5px",
-    paddingRight: "15px",
-    fontSize: "11px",
+  const he1 = {
     backgroundColor: "white",
+    boxShadow: "4px 4px 7px 7px rgb(0 0 0/15%)",
+    height: "110px",
+    paddingLeft: "3px",
+    paddingRight: "3px",
+  };
+  
+  const itemStyle = {
+    backgroundColor: "#f7f7f7",
+    height: "55px",
+    fontSize: "23.5px",
+    margin: "0px 0px 7px",
+    fontWeight: "730",
+    color: "blue",
+    paddingLeft: "4px",
+  };
+ 
+  const dashbordStyle = {
+    marginLeft: "2.5%",
+    margin: "20px",
+    height: "550px",
+    fontSize: "10px",
+    width: "96%",
+    padding: "4.5px",
+    borderRadius: "5px",
+    position: "relative",
   };
 
   const thro1 = {
@@ -95,7 +112,10 @@ function FacultySearch() {
   };
 
   return (
-    <div style={body}>
+    <div>
+      <div style={{ ...dashbordStyle, overflowX: 'auto' }}>
+        <div style={he1}>
+          <div style={itemStyle}>Faculty Information  </div>
       <div style={{ width: "100%", overflowX: "auto" }}>
         <table id="example" className="display">
           <thead>
@@ -138,6 +158,8 @@ function FacultySearch() {
           </tbody>
         </table>
       </div>
+    </div>
+    </div>
     </div>
   );
 }

@@ -102,6 +102,8 @@ const AdminSideBar = ({
         height: "26px",
         width: "31px",
         marginBottom: "3px",
+        marginTop:"-88px",marginLeft:"169px"
+  
     };
 
     const userDisplay = {
@@ -110,6 +112,9 @@ const AdminSideBar = ({
         marginTop: "8px",
         background: "transparent",
         border: "none",
+        marginTop:"-49px",
+        
+  
     };
 
     const drop = {
@@ -242,7 +247,7 @@ const AdminSideBar = ({
                         aria-labelledby="offcanvasScrollingLabel"
                     >
                         <div className="offcanvas-header" style={navbars}>
-                            <h5 className="offcanvas-title" id="offcanvasScrollingLabel">
+                            <h5 className="offcanvas-title" id="offcanvasScrollingLabel" style={{color:"white"}}>
                                 TTMS Menu
                             </h5>
                             <button
@@ -364,7 +369,7 @@ const AdminSideBar = ({
                             </button>
                         </div> */}
                     </div>
-                    <img style={logos} src={logo} alt="logo not found" />
+                    <img style={logos} src={logo} alt="logo not found" /> <p style={{marginTop:"-39px",color: "white",fontSize:"22px",marginLeft:"109px"}}>TTMS </p>
                     <svg
                         onClick={onShowHomeClick}
                         xmlns="http://www.w3.org/2000/svg"
@@ -380,7 +385,7 @@ const AdminSideBar = ({
                         data-bs-toggle="dropdown"
                         aria-expanded="false"
                     >
-                        {userName ? `${userName} (Admin)` : "Loading..."}
+                        {userName ? `${userName}` (Admin) : "Loading..."}
                     </button>
                     <ul className="dropdown-menu" style={drop}>
                         <li style={pic}>

@@ -130,7 +130,37 @@ function AddSubjects() {
   const handleSubmit = async (event) => {
     event.preventDefault();
 
+    // Validation logic
+    if (!validateForm()) {
+      return;
+    }
+
     try {
+
+      const courseCodeResponse = await fetch(`http://localhost:3000/api/subject/checkcoursecode/${subjectInfo.coursecode}`);
+      const ntrResponse = await fetch(`http://localhost:3000/api/subject/checkntr/${subjectInfo.ntr}`);
+  
+      if (!courseCodeResponse.ok || !ntrResponse.ok) {
+        throw new Error('Network response was not ok');
+      }
+  
+      const courseCodeData = await courseCodeResponse.json();
+      const ntrData = await ntrResponse.json();
+  
+      if (courseCodeData.exists) {
+        alert("Course code already exists. Please choose a different course code.");
+        return;
+      }
+  
+      if (ntrData.exists) {
+        alert("NTR already exists. Please choose a different NTR.");
+        return;
+      }
+  
+      // Validation logic
+      if (!validateForm()) {
+        return;
+      }
       const response = await fetch("http://localhost:3000/api/subject/addsubjects", {
         method: "POST",
         headers: {
@@ -168,6 +198,68 @@ function AddSubjects() {
       console.error("Error adding the subject:", error);
       alert("An error occurred while adding the subject.");
     }
+  };
+
+  // Form validation logic
+  const validateForm = () => {
+    // Regular expressions for validation
+   const alphanumericRegex = /^[a-zA-Z0-9]+$/;
+    const numericRegex = /^[0-9]+$/;
+    const creditRegex = /^[2-9][0-9]{1,2}$/;
+
+    // Validate course title (only alphabetic characters)
+    if (!subjectInfo.coursetitle.match(/^[a-zA-Z\s]*$/)) {
+      alert("Course title must contain only alphabetic characters.");
+      return false;
+    }
+
+   const alphanumericRegex2 = /^(?=.*[0-9])[a-zA-Z0-9]+$/;
+    if (!alphanumericRegex2.test(subjectInfo.coursecode)) {
+      alert("Course code must be alphanumeric and contain at least one character and one digit.");
+      return false;
+    }
+
+    // Validate NTR (alphanumeric, at least one character, and contains at least one digit)
+const alphanumericRegex1 = /^(?=.[a-zA-Z])(?=.[0-9])[a-zA-Z0-9]+$/;
+if (!alphanumericRegex1.test(subjectInfo.ntr)) {
+  alert("NTR must be alphanumeric and contain at least one character and one digit.");
+  return false;
+}
+
+    // Validate NTR (must be unique)
+    // Add your unique validation logic here
+
+    // Validate version (only 1 or 2)
+if (!['1', '2'].includes(subjectInfo.version)) {
+  alert("Version must be either 1 or 2.");
+  return false;
+}
+
+  // Validate lecture, practical, tutorial, project (only 1, 2, or 3)
+const allowedValues = ['1', '2', '0'];
+if (!allowedValues.includes(subjectInfo.lecture) || !allowedValues.includes(subjectInfo.practical) || !allowedValues.includes(subjectInfo.tutorial) || !allowedValues.includes(subjectInfo.project)) {
+  alert("Lecture, practical, tutorial, and project must be either 1, 2, or 0.");
+  return false;
+}
+
+// Validate credit (only 2, 3, or 4)
+const validCreditValues = ["2", "3", "4"];
+if (!validCreditValues.includes(subjectInfo.credit)) {
+  alert("Credit must be either 2, 3, or 4.");
+  return false;
+}
+
+
+  // Validate course venue (must be integer and no more than 3 digits)
+
+if (!numericRegex.test(subjectInfo.coursevenue) || subjectInfo.coursevenue.length > 3) {
+  alert("Course venue must be an integer with no more than 3 digits.");
+  return false;
+}
+
+
+    // Validation passed
+    return true;
   };
 
   return (

@@ -61,6 +61,7 @@ const SideBar = ({
     background: "linear-gradient(to right, #2455a3, rgb(99 149 228),#2455a3)",
     height: "54px",
     width: "100%",
+    marginBottom:"30px",
   };
 
   const navbars = {
@@ -69,6 +70,7 @@ const SideBar = ({
       "linear-gradient(to right, rgb(36 85 163), rgb(99 149 228),#2455a3)",
     // background: linear-gradient(to right, rgb(66 0 147), rgb(177 145 206), rgb(102 36 163));
     height: "54px",
+   
   };
 
   const main = {
@@ -100,6 +102,7 @@ const SideBar = ({
     height: "26px",
     width: "31px",
     marginBottom: "3px",
+    marginTop:"-88px",marginLeft:"169px"
   };
 
   const userDisplay = {
@@ -108,6 +111,7 @@ const SideBar = ({
     marginTop: "8px",
     background: "transparent",
     border: "none",
+    marginTop:"-49px",
   };
 
   const drop = {
@@ -240,7 +244,7 @@ const SideBar = ({
             aria-labelledby="offcanvasScrollingLabel"
           >
             <div className="offcanvas-header" style={navbars}>
-              <h5 className="offcanvas-title" id="offcanvasScrollingLabel">
+              <h5 className="offcanvas-title" id="offcanvasScrollingLabel" style={{color:"white"}}>
                 TTMS Menu
               </h5>
               <button
@@ -316,7 +320,8 @@ const SideBar = ({
               </button>
             </div>
           </div>
-          <img style={logos} src={logo} alt="logo not found" />
+         
+          <img style={logos} src={logo} alt="logo not found" /> <p style={{marginTop:"-39px",color: "white",fontSize:"22px",marginLeft:"109px"}}>TTMS </p>
           <svg
             onClick={onShowHomeClick}
             xmlns="http://www.w3.org/2000/svg"
@@ -332,7 +337,7 @@ const SideBar = ({
             data-bs-toggle="dropdown"
             aria-expanded="false"
           >
-            {userName ? `${userName} (Faculty)` : "Loading..."}
+            {userName ? `${userName}` (Faculty) : "Loading..."}
           </button>
           <ul className="dropdown-menu" style={drop}>
             <li style={pic}>
@@ -433,7 +438,7 @@ export default SideBar;
 //           throw new Error("Invalid userId format");
 //         }
 
-//         const response = await fetch(`/api/auth/fetchtimetable/${userId}`);
+//         const response = await fetch(/api/auth/fetchtimetable/${userId});
 //         if (!response.ok) {
 //           throw new Error("Failed to fetch timetable data");
 //         }
@@ -445,11 +450,11 @@ export default SideBar;
 
 //           // Fetch subject data for each subject ID
 //           for (let i = 1; i <= 3; i++) {
-//             const subjectId = data[`subject${i}`];
+//             const subjectId = data[subject${i}];
 //             if (subjectId) {
-//               const subjectResponse = await fetch(`/api/subject/fetchsubject/${subjectId}`);
+//               const subjectResponse = await fetch(/api/subject/fetchsubject/${subjectId});
 //               if (!subjectResponse.ok) {
-//                 throw new Error(`Failed to fetch subject with ID: ${subjectId}`);
+//                 throw new Error(Failed to fetch subject with ID: ${subjectId});
 //               }
 //               const subjectData = await subjectResponse.json();
 //               subjectsData.push(subjectData);
