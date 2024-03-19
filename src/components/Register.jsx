@@ -140,49 +140,49 @@ function Register() {
         throw new Error('Network response was not ok');
       }
       const usernameData = await usernameResponse.json();
-    
+
       if (usernameData.exists) {
         alert("Username already exists. Please choose a different username.");
         return;
       }
 
 
-          // Check if the cabin number already exists
-    const cabinResponse = await fetch(`http://localhost:3000/api/auth/checkcabin/${credentials.cabinNo}`);
-    if (!cabinResponse.ok) {
-      throw new Error('Network response was not ok');
-    }
-    const cabinData = await cabinResponse.json();
+      // Check if the cabin number already exists
+      const cabinResponse = await fetch(`http://localhost:3000/api/auth/checkcabin/${credentials.cabinNo}`);
+      if (!cabinResponse.ok) {
+        throw new Error('Network response was not ok');
+      }
+      const cabinData = await cabinResponse.json();
 
-    if (cabinData.exists) {
-      alert("Cabin number already exists. Please choose a different cabin number.");
-      return;
-    }
+      if (cabinData.exists) {
+        alert("Cabin number already exists. Please choose a different cabin number.");
+        return;
+      }
 
       // Check if the email already exists
-// Check if the email already exists
-const emailResponse = await fetch(`http://localhost:3000/api/auth/checkemail/${credentials.email}`);
-if (!emailResponse.ok) {
-  throw new Error('Network response was not ok');
-}
-const emailData = await emailResponse.json();
+      // Check if the email already exists
+      const emailResponse = await fetch(`http://localhost:3000/api/auth/checkemail/${credentials.email}`);
+      if (!emailResponse.ok) {
+        throw new Error('Network response was not ok');
+      }
+      const emailData = await emailResponse.json();
 
-if (emailData.exists) {
-  alert("Email already exists. Please use a different email address.");
-  return;
-}
+      if (emailData.exists) {
+        alert("Email already exists. Please use a different email address.");
+        return;
+      }
 
- const createUserResponse = await fetch(`http://localhost:3000/api/auth/createuser`, {
+      const createUserResponse = await fetch(`http://localhost:3000/api/auth/createuser`, {
         method: 'POST',
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify(credentials),
       });
-    
+
       const json = await createUserResponse.json();
       console.log(json);
-    
+
       if (createUserResponse.ok) {
         // Redirect to login page if user creation is successful
         navigate('/login');
@@ -195,11 +195,11 @@ if (emailData.exists) {
       // Handle network errors or other exceptions here
       alert("An error occurred while processing your request. Please try again later.");
     }
-    
+
   };
 
-   // Toggle password visibility
-   const togglePasswordVisibility = () => {
+  // Toggle password visibility
+  const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
   };
 
@@ -223,6 +223,8 @@ if (emailData.exists) {
     const regex = /^(?=.\d)(?=.[!@#$%^&])(?=.[a-zA-Z]).{1,20}$/;
     return regex.test(password);
   };
+
+  // locationOptions = ['Bhopal', 'Sehore', 'Astha', 'Hosteller'];
 
   return (
     <div style={container}>
@@ -328,6 +330,41 @@ if (emailData.exists) {
             />
           </div>
           <div style={row}>
+            <i className="fa-solid fa-calendar-days" style={icons}></i>
+            <input
+              type="date"
+              placeholder="date"
+              name="date"
+              required
+              style={input}
+              value={credentials.date}
+              onChange={onChange}
+              onFocus={() => setInputFocus(true)}
+              onBlur={() => setInputFocus(false)}
+            />
+          </div>
+          <div style={row}>
+            <i className="fa-solid fa-map-marker-alt" style={icons}></i> {/* Icon for location */}
+            <select
+              name="location"
+              style={input} // Apply your desired styling here
+              value={credentials.location}
+              onChange={onChange}
+              onFocus={() => setInputFocus(true)}
+              onBlur={() => setInputFocus(false)}
+            >
+              {/* <option value="">Location</option> Default option */}
+              <option value="Bhopal">Bhopal</option>
+              <option value="Sehore">Sehore</option>
+              <option value="Hosteller">Hosteller</option>
+              <option value="Astha">Astha</option>
+            </select>
+          </div>
+
+
+
+
+          <div style={row}>
             <i className="fas fa-lock" style={icons} onClick={togglePasswordVisibility}></i>
             <input
               type={showPassword ? "text" : "password"} // Show plain text if showPassword is true
@@ -341,6 +378,8 @@ if (emailData.exists) {
               onBlur={() => setInputFocus(false)}
             />
           </div>
+
+
           <input type="submit" value="Register" style={button} />
         </form>
       </div>

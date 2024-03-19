@@ -60,17 +60,8 @@ router.post("/addsubjects", async (req, res) => {
       coursesemester,
       // Default values for slots related fields
       FslotId: null,
-      Fslotname: "empty",
-      Fslotday: "empty",
-      Fslottime: "empty",
       SslotId: null,
-      Sslotname: "empty",
-      Sslotday: "empty",
-      Sslottime: "empty",
       TslotId: null,
-      Tslotname: "empty",
-      Tslotday: "empty",
-      Tslottime: "empty",
       available: true,
     });
 
@@ -102,19 +93,10 @@ router.put("/addSlotData/:id", async (req, res) => {
     // Update the subject's slot data
     if (slotId === "FslotId") {
       subject.FslotId = slotId || subject.FslotId;
-      subject.Fslotname = slotname || subject.Fslotname;
-      subject.Fslotday = slotday || subject.Fslotday;
-      subject.Fslottime = slottime || subject.Fslottime;
     } else if (slotId === "SslotId") {
       subject.SslotId = slotId || subject.SslotId;
-      subject.Sslotname = slotname || subject.Sslotname;
-      subject.Sslotday = slotday || subject.Sslotday;
-      subject.Sslottime = slottime || subject.Sslottime;
     } else if (slotId === "TslotId") {
       subject.TslotId = slotId || subject.TslotId;
-      subject.Tslotname = slotname || subject.Tslotname;
-      subject.Tslotday = slotday || subject.Tslotday;
-      subject.Tslottime = slottime || subject.Tslottime;
     }
 
     await subject.save();
@@ -182,17 +164,8 @@ router.put("/updatesubject/:id", async (req, res) => {
     courseoption,
     coursesemester,
     FslotId,
-    Fslotname,
-    Fslotday,
-    Fslottime,
     SslotId,
-    Sslotname,
-    Sslotday,
-    Sslottime,
     TslotId,
-    Tslotname,
-    Tslotday,
-    Tslottime,
   } = req.body;
 
   try {
@@ -220,17 +193,8 @@ router.put("/updatesubject/:id", async (req, res) => {
     subject.coursesemester = coursesemester;
     subject.courseoption = courseoption;
     subject.FslotId = FslotId || subject.FslotId;
-    subject.Fslotname = Fslotname || subject.Fslotname;
-    subject.Fslotday = Fslotday || subject.Fslotday;
-    subject.Fslottime = Fslottime || subject.Fslottime;
     subject.SslotId = SslotId || subject.SslotId;
-    subject.Sslotname = Sslotname || subject.Sslotname;
-    subject.Sslotday = Sslotday || subject.Sslotday;
-    subject.Sslottime = Sslottime || subject.Sslottime;
     subject.TslotId = TslotId || subject.TslotId;
-    subject.Tslotname = Tslotname || subject.Tslotname;
-    subject.Tslotday = Tslotday || subject.Tslotday;
-    subject.Tslottime = Tslottime || subject.Tslottime;
 
     // Save updated subject
     subject = await subject.save();
@@ -288,6 +252,27 @@ router.get("/subjects/:id", async (req, res) => {
   }
 });
 
+router.get("/subjectss/:id", async (req, res) => {
+  const subjectId = req.params.id;
+
+  try {
+    // Fetch subject data from the database based on subjectId
+    const subject = await Subject.findById(subjectId);
+
+    if (!subject) {
+      return res.status(404).json({ success: false, message: "Subject not found" });
+    }
+
+    // Return the subject data
+    res.status(200).json({ success: true, subject });
+  } catch (error) {
+    // Handle errors
+    console.error(error);
+    res.status(500).json({ success: false, message: "Server Error" });
+  }
+});
+
+
 router.get('/checkcoursecode/:coursecode', async (req, res) => {
   const { coursecode } = req.params;
 
@@ -331,11 +316,9 @@ router.get("/allAvailableSubjects", async (req, res) => {
   }
 });
 
-// Route to update subject availability
 router.put("/updateAvailability/:subjectId", async (req, res) => {
   try {
     const { subjectId } = req.params;
-    const updatedSubject = req.body;
 
     const subject = await Subject.findById(subjectId);
 
@@ -345,8 +328,10 @@ router.put("/updateAvailability/:subjectId", async (req, res) => {
         .json({ success: false, message: "Subject not found" });
     }
 
-    subject.available = updatedSubject.available;
+    // Always set available to false
+    subject.available = false;
 
+    // Save the updated subject
     const savedSubject = await subject.save();
 
     res.json({
@@ -360,11 +345,12 @@ router.put("/updateAvailability/:subjectId", async (req, res) => {
   }
 });
 
+
+
 // PUT /api/subject/updateSelectedSlotsAvailability
 // Update the availability of selected slots
 router.put("/updateSelectedSlotsAvailability", async (req, res) => {
   const { slotIds } = req.body;
-
   try {
     await Subject.updateMany({ _id: { $in: slotIds } }, { available: false });
 

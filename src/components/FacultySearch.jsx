@@ -77,6 +77,7 @@ function FacultySearch() {
 
   const updateIcon = <i className="fas fa-pencil-alt"></i>;
   const deleteIcon = <i className="fas fa-trash-alt"></i>;
+  const viewIcon= <i className="fa-solid fa-eye"></i>
 
   const handleDelete = async (id) => {
     try {
@@ -98,6 +99,9 @@ function FacultySearch() {
 
   const handleUpdate = (id) => {
     window.location.href = `/updateregister/${id}`;
+  };
+  const handleView = (id) => {
+    window.location.href =`/viewprofile/${id}`;
   };
 
   // Function to format date to display only date (YYYY-MM-DD)
@@ -129,7 +133,10 @@ function FacultySearch() {
               <th>Email ID</th>
               <th>Cabin Number</th>
               <th>Date</th>
+              <th>Location</th>
+              <th>History</th>
               <th>Action</th>
+            
             </tr>
           </thead>
           <tbody>
@@ -145,6 +152,11 @@ function FacultySearch() {
                 <td style={centeredText}>{user.cabinNo}</td>
                 {/* Format date to display only date (YYYY-MM-DD) */}
                 <td style={centeredText}>{formatDate(user.date)}</td>
+                <td style={centeredText}>{user.location}</td>
+                <td style={centeredText}><button style={icons} onClick={() => handleView(user._id)}>
+                    {viewIcon}
+                  </button></td>
+
                 <td style={centeredText}>
                   <button style={icons} onClick={() => handleUpdate(user._id)}>
                     {updateIcon}
@@ -153,6 +165,7 @@ function FacultySearch() {
                     {deleteIcon}
                   </button>
                 </td>
+                
               </tr>
             ))}
           </tbody>

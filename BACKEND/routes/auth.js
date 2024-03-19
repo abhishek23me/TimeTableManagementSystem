@@ -71,6 +71,8 @@ router.post(
         schoolCenterName: req.body.schoolCenterName,
         cabinNo: req.body.cabinNo,
         password: secPass,
+        date:req.body.date,
+        location:req.body.location,
       });
 
       const data = {
@@ -172,7 +174,8 @@ router.put('/updateuser/:id', async (req, res) => {
               departmentName,
               schoolCenterName,
               cabinNo,
-              password, // You may want to hash this password before saving to DB
+              password, 
+              location,// You may want to hash this password before saving to DB
           },
           { new: true }
       );

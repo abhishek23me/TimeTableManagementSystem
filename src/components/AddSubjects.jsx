@@ -108,7 +108,7 @@ function AddSubjects() {
     coursevenue: "",
     coursetype: "",
     courseoption: "",
-    coursesemester: "", // New field for coursesemester
+    coursesemester: "", 
   });
 
   const handleChange = (event) => {
@@ -220,7 +220,7 @@ function AddSubjects() {
     }
 
     // Validate NTR (alphanumeric, at least one character, and contains at least one digit)
-const alphanumericRegex1 = /^(?=.[a-zA-Z])(?=.[0-9])[a-zA-Z0-9]+$/;
+const alphanumericRegex1 = /^(?=.*[a-zA-Z])(?=.*[0-9])[a-zA-Z0-9]+$/;
 if (!alphanumericRegex1.test(subjectInfo.ntr)) {
   alert("NTR must be alphanumeric and contain at least one character and one digit.");
   return false;

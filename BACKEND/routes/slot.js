@@ -142,22 +142,4 @@ router.put('/updateSelectedSlotsAvailability', async (req, res) => {
   }
 });
 
-// Route to get slot information by slotId
-router.get("/:slotId", async (req, res) => {
-  const { slotId } = req.params;
-
-  try {
-    const slot = await Slot.findById(slotId);
-
-    if (!slot) {
-      return res.status(404).json({ success: false, message: "Slot not found" });
-    }
-
-    res.json({ success: true, slot });
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ success: false, message: "Server Error" });
-  }
-});
-
 module.exports = router;

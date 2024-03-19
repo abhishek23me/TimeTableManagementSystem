@@ -12,6 +12,7 @@ function UpdateRegister() {
         schoolCenterName: '',
         cabinNo: '',
         password: '',
+        location:'',
     });
 
     const [inputFocus, setInputFocus] = useState(false);
@@ -36,6 +37,8 @@ function UpdateRegister() {
                     departmentName: data.user.departmentName,
                     schoolCenterName: data.user.schoolCenterName,
                     cabinNo: data.user.cabinNo,
+                    location:data.user.location,
+
                 });
             } else {
                 console.error('Error fetching user data:', data.error);
@@ -264,6 +267,23 @@ function UpdateRegister() {
                             onBlur={() => setInputFocus(false)}
                         />
                     </div>
+                    <div style={row}>
+            <i className="fa-solid fa-map-marker-alt" style={icons}></i> {/* Icon for location */}
+            <select
+              name="location"
+              style={input} // Apply your desired styling here
+              value={credentials.location}
+              onChange={onChange}
+              onFocus={() => setInputFocus(true)}
+              onBlur={() => setInputFocus(false)}
+            >
+              {/* <option value="">Location</option> Default option */}
+              <option value="Bhopal">Bhopal</option>
+              <option value="Sehore">Sehore</option>
+              <option value="Hosteller">Hosteller</option>
+              <option value="Astha">Astha</option>
+            </select>
+          </div>
                     <input type="submit" value="Update" style={button} />
                 </form>
             </div>

@@ -79,23 +79,6 @@ const SubjectSchema = new Schema({
     required: true,
     default: "General"
   },
-  
-  Fslotname: {
-    type: String,
-    required: false,
-    default: "empty"
-  },
-  Fslotday: {
-    type: String,
-    required: false,
-    default: "empty"
-  },
-  Fslottime: {
-    type: String,
-    required: false,
-    default: "empty"
-  },
-  // other fields...
   FslotId: {
     type: String,
     default: null
@@ -115,7 +98,7 @@ const SubjectSchema = new Schema({
   // Separate fields for storing date and time
   date: {
     type: Date,
-    default: Date.now
+    required: true
   },
   time: {
     type: String,
@@ -152,7 +135,7 @@ SubjectSchema.pre('save', async function (next) {
 
 
 // Middleware function to convert date to IST before saving
-SubjectSchema.pre('save', function(next) {
+SubjectSchema.pre('save', function (next) {
   // Convert the date to IST
   this.date = convertUTCtoIST(this.date);
 

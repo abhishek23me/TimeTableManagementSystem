@@ -22,6 +22,7 @@ import SubjectsSearch from './components/SubjectsSearch';
 import AddSubjects from './components/AddSubjects';
 import UpdateSubjects from './components/UpdateSubjects';
 import SubjectSelect from './components/SubjectSelect';
+import History from "./components/History";
 
 function App() {
   return (
@@ -43,6 +44,7 @@ function App() {
           <Route path="/addsubjects" element={<AddSubjects />} />
           <Route path="/updatesubjects/:id" element={<UpdateSubjects />} />
           <Route path="/subjectselect" element={<SubjectSelect />} />
+          <Route path="/history" component={History}/>
         </Routes>
       </Router>
     </div>
@@ -50,6 +52,3 @@ function App() {
 }
 
 export default App;
-
-
-

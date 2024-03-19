@@ -15,6 +15,7 @@ function UpdateSubjects() {
         credit: '',
         coursevenue: '',
         coursetype: '',
+        coursesemester:'',
         courseoption: '',
     });
 

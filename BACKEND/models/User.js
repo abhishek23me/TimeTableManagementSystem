@@ -40,7 +40,7 @@ const UserSchema = new Schema({
     },
     subject1: {
         type: String,
-        default: null // You can set default values if needed
+        default: null 
     },
     subject2: {
         type: String,
@@ -52,8 +52,14 @@ const UserSchema = new Schema({
     },
     date: {
         type: Date,
-        default: Date.now
+        required:true,
+    
     },
+    location:{
+        type: String,
+        required:true,
+    
+    }
 });
 
 const User = mongoose.model('user', UserSchema);

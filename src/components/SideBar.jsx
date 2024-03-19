@@ -438,7 +438,7 @@ export default SideBar;
 //           throw new Error("Invalid userId format");
 //         }
 
-//         const response = await fetch(/api/auth/fetchtimetable/${userId});
+//         const response = await fetch(`/api/auth/fetchtimetable/${userId}`);
 //         if (!response.ok) {
 //           throw new Error("Failed to fetch timetable data");
 //         }
@@ -450,11 +450,11 @@ export default SideBar;
 
 //           // Fetch subject data for each subject ID
 //           for (let i = 1; i <= 3; i++) {
-//             const subjectId = data[subject${i}];
+//             const subjectId = data[`subject${i}`];
 //             if (subjectId) {
-//               const subjectResponse = await fetch(/api/subject/fetchsubject/${subjectId});
+//               const subjectResponse = await fetch(`/api/subject/fetchsubject/${subjectId}`);
 //               if (!subjectResponse.ok) {
-//                 throw new Error(Failed to fetch subject with ID: ${subjectId});
+//                 throw new Error(`Failed to fetch subject with ID: ${subjectId}`);
 //               }
 //               const subjectData = await subjectResponse.json();
 //               subjectsData.push(subjectData);

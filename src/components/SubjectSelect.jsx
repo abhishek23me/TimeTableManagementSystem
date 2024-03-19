@@ -70,8 +70,8 @@ const SubjectSelect = () => {
           }
 
           // Make the PUT request to update the subject in the database
-          const response = await fetch(`
-            /api/subject/updateslots/${selectedSubject._id}`,
+          const response = await fetch(
+            `/api/subject/updateslots/${selectedSubject._id}`,
             {
               method: "PUT",
               headers: {
@@ -88,9 +88,9 @@ const SubjectSelect = () => {
           }
 
           // Show an alert for successful update
-          alert(`
-            Slot ${selectedSlot.slotname} selected and updated in the database.
-          `);
+          alert(
+            `Slot ${selectedSlot.slotname} selected and updated in the database.`
+          );
 
           // Update the availability of the selected slot
           const updatedSlots = allSlots.map((slot) => {
@@ -114,7 +114,6 @@ const SubjectSelect = () => {
       }
     }
   };
-
 
   const handleOK = async (index) => {
     const selectedSlot = selectedSlots[index];
@@ -171,9 +170,9 @@ const SubjectSelect = () => {
         }
 
         // Show an alert for successful update
-        alert(`
-          Slot ${selectedSlot.slotname} selected and updated in the database.
-        `);
+        alert(
+          `Slot ${selectedSlot.slotname} selected and updated in the database.`
+        );
 
         // Update the availability of the selected slot
         const updatedSlots = allSlots.map((slot) => {
@@ -216,17 +215,8 @@ const SubjectSelect = () => {
       // Create the updated subject object with all the selected slot data
       let updatedSubject = { ...selectedSubject }; // Get the existing subject data
       updatedSubject.FslotId = selectedSlots[0]?.slotId || null;
-      updatedSubject.Fslotname = selectedSlots[0]?.slotname || "empty";
-      updatedSubject.Fslotday = selectedSlots[0]?.slotday || "empty";
-      updatedSubject.Fslottime = selectedSlots[0]?.slottime || "empty";
       updatedSubject.SslotId = selectedSlots[1]?.slotId || null;
-      updatedSubject.Sslotname = selectedSlots[1]?.slotname || "empty";
-      updatedSubject.Sslotday = selectedSlots[1]?.slotday || "empty";
-      updatedSubject.Sslottime = selectedSlots[1]?.slottime || "empty";
       updatedSubject.TslotId = selectedSlots[2]?.slotId || null;
-      updatedSubject.Tslotname = selectedSlots[2]?.slotname || "empty";
-      updatedSubject.Tslotday = selectedSlots[2]?.slotday || "empty";
-      updatedSubject.Tslottime = selectedSlots[2]?.slottime || "empty";
 
       // Make the PUT request to update the subject in the database
       const subjectResponse = await fetch(
@@ -243,9 +233,7 @@ const SubjectSelect = () => {
       const subjectData = await subjectResponse.json();
 
       if (!subjectResponse.ok) {
-        throw new Error(
-          subjectData.message || "Failed to update subject data"
-        );
+        throw new Error(subjectData.message || "Failed to update subject data");
       }
 
       // Show an alert for successful subject update
@@ -271,7 +259,7 @@ const SubjectSelect = () => {
       if (!updateAvailabilityResponse.ok) {
         throw new Error(
           updateAvailabilityData.message ||
-          "Failed to update selected slots availability"
+            "Failed to update selected slots availability"
         );
       }
 
@@ -303,12 +291,6 @@ const SubjectSelect = () => {
       }
 
       const currentUser = userData.user;
-
-      // if (currentUser.subject1 && currentUser.subject2 && currentUser.subject3) {
-      //   // If all subjects are selected, show an alert and navigate to another component
-      //   alert("All subjects selected!");
-      //   history.push("/timetable"); // Navigate to another component
-      // }
 
       // Update the subject fields based on availability
       if (!currentUser.subject1) {
@@ -361,7 +343,7 @@ const SubjectSelect = () => {
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({ available: false }),
+          body: JSON.stringify(),
         }
       );
 
@@ -371,16 +353,10 @@ const SubjectSelect = () => {
       if (!updateSubjectAvailabilityResponse.ok) {
         throw new Error(
           updateSubjectAvailabilityData.message ||
-          "Failed to update subject availability"
+            "Failed to update subject availability"
         );
       }
 
-      // if (currentUser.subject1 && currentUser.subject2 && currentUser.subject3) {
-      //   // If all subjects are selected, show an alert and navigate to another component
-      //   alert("All subjects selected!");
-      //   history("/timetable"); // Navigate to another component
-      // }
-      // Alert for successful update of subject availability
       alert("Subject availability updated successfully.");
       checkSubjectsSelected();
     } catch (error) {
@@ -399,9 +375,7 @@ const SubjectSelect = () => {
         setSubjectsData(data.subjects);
       } catch (error) {
         console.error("Error fetching available subjects:", error);
-        setError(
-          "Failed to fetch available subjects. Please try again later."
-        );
+        setError("Failed to fetch available subjects. Please try again later.");
       }
     };
 
@@ -423,7 +397,6 @@ const SubjectSelect = () => {
 
     await fetchAvailableSlots();
   };
-
 
   const fetchSubjectsData = async () => {
     try {
@@ -472,7 +445,11 @@ const SubjectSelect = () => {
       }
 
       const currentUser = userData.user;
-      if (currentUser.subject1 && currentUser.subject2 && currentUser.subject3) {
+      if (
+        currentUser.subject1 &&
+        currentUser.subject2 &&
+        currentUser.subject3
+      ) {
         setSubjectsSelected(true);
       } else {
         setSubjectsSelected(false);
@@ -495,72 +472,77 @@ const SubjectSelect = () => {
 
   return (
     <>
-    <div
-      style={{
-        background: "#f0f0f0",
-        boxShadow: "0 4px 8px rgba(0,0,0,0.1)",
-        padding: "20px",
-        marginTop: "30px",
-        width: "700px",
-        margin: "0 auto",
-      }}
-    >
-      {subjectsSelected ? ( 
-        <h3 style={{paddingTop:"10px"}}> All subjects are already selected.</h3>
-      ) : (
-        <>
-          <div style={styles.title}>
-            <h2 style={{ textAlign: "center", marginBottom: "20px" }}>
-              Generate Time Table
-            </h2>
-          </div>
-          <form onSubmit={handleSubmit}>
-            <div>
-              <i style={styles.icons} className="fa-solid fa-book"></i>
-              <select
-                value={subject}
-                onChange={handleSubjectChange}
-                style={styles.input }
-              >
-                <option value="">Select Subject</option>
-                {subjectsData.map((subject) => (
-                  <option
-                    key={subject._id}
-                    value={subject.coursetitle}
-                  >{`${subject.coursetitle} - Course Code: ${subject.coursecode} - Credits: ${subject.credit}`}</option>
-                ))}
-              </select>
+      <div
+        style={{
+          background: "#f0f0f0",
+          boxShadow: "0 4px 8px rgba(0,0,0,0.1)",
+          padding: "20px",
+          marginTop: "30px",
+          width: "700px",
+          margin: "0 auto",
+        }}
+      >
+        {subjectsSelected ? (
+          <h3 style={{ paddingTop: "10px" }}>
+            {" "}
+            All subjects are already selected.
+          </h3>
+        ) : (
+          <>
+            <div style={styles.title}>
+              <h2 style={{ textAlign: "center", marginBottom: "20px" }}>
+                Generate Time Table
+              </h2>
             </div>
-
-            {selectedSlots.map((slot, index) => (
-              <div key={index} style={{ marginTop: "20px" }}>
-                <i style={styles.icons} className="fa-solid fa-calendar-days"></i>
+            <form onSubmit={handleSubmit}>
+              <div>
+                <i style={styles.icons} className="fa-solid fa-book"></i>
                 <select
-                  value={slot.slotname || ""}
-                  onChange={(event) => handleSlotChange(index, event)}
+                  value={subject}
+                  onChange={handleSubjectChange}
                   style={styles.input}
                 >
-                  <option value="">Select Slot, Day & Time</option>
-                  {allSlots.map((slot) => (
+                  <option value="">Select Subject</option>
+                  {subjectsData.map((subject) => (
                     <option
-                      key={slot._id} // <-- Use slot _id as the key
-                      value={slot.slotname}
-                      disabled={!slot.available}
-                    >{`${slot.slotname} - Day: ${slot.slotday} - Time: ${slot.slottime}`}</option>
+                      key={subject._id}
+                      value={subject.coursetitle}
+                    >{`${subject.coursetitle} - Course Code: ${subject.coursecode} - Credits: ${subject.credit}`}</option>
                   ))}
                 </select>
               </div>
-            ))}
 
-            <button type="submit" style={styles.sub}>
-              Submit
-            </button>
-          </form>
-          {error && <p style={{ color: "red" }}>{error}</p>}
-        </>
-      )}
-      
-    </div>
+              {selectedSlots.map((slot, index) => (
+                <div key={index} style={{ marginTop: "20px" }}>
+                  <i
+                    style={styles.icons}
+                    className="fa-solid fa-calendar-days"
+                  ></i>
+                  <select
+                    value={slot.slotname || ""}
+                    onChange={(event) => handleSlotChange(index, event)}
+                    style={styles.input}
+                  >
+                    <option value="">Select Slot, Day & Time</option>
+                    {allSlots.map((slot) => (
+                      <option
+                        key={slot._id} // <-- Use slot _id as the key
+                        value={slot.slotname}
+                        disabled={!slot.available}
+                      >{`${slot.slotname} - Day: ${slot.slotday} - Time: ${slot.slottime}`}</option>
+                    ))}
+                  </select>
+                </div>
+              ))}
+
+              <button type="submit" style={styles.sub}>
+                Submit
+              </button>
+            </form>
+            {error && <p style={{ color: "red" }}>{error}</p>}
+          </>
+        )}
+      </div>
     </>
   );
 };
@@ -580,7 +562,7 @@ const styles = {
   icons: {
     position: "absolute",
     width: "47px",
-    height: "6%",
+    height: "9%",
     color: "#fff",
     marginTop: "10px",
     marginLeft: "1px",
@@ -631,12 +613,3 @@ const styles = {
 
 export default SubjectSelect;
 
-
-{/* <button
-              type="button"
-              style={styles.okButton}
-              onClick={() => handleOK(index)}
-              disabled={!slot.slotname || okButtonDisabled}
-            >
-              OK
-            </button> */}
