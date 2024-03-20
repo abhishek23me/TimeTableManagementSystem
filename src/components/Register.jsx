@@ -205,7 +205,7 @@ function Register() {
 
   // Validation Functions
   const validateUsername = (username) => {
-    const regex = /^(?=.[A-Za-z])(?=.\d)[A-Za-z\d]{1,}$/;
+    const regex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{1,}$/;
     return regex.test(username);
   };
 
@@ -220,10 +220,10 @@ function Register() {
   };
 
   const validatePassword = (password) => {
-    const regex = /^(?=.\d)(?=.[!@#$%^&])(?=.[a-zA-Z]).{1,20}$/;
+    const regex = /^(?=.*\d)(?=.*[!@#$%^&])(?=.*[a-zA-Z]).{1,20}$/;
     return regex.test(password);
   };
-
+  
   // locationOptions = ['Bhopal', 'Sehore', 'Astha', 'Hosteller'];
 
   return (

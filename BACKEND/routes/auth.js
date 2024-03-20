@@ -11,7 +11,37 @@ const mongoose = require('mongoose');
 
 const JWT_SECRET = "abhiisagoodb$oy";
 
-router.get('/fetchtimetable/:userId', async (req, res) => {
+// GET user data by userId
+router.get("/data/:userId", async (req, res) => {
+  try {
+    const { userId } = req.params;
+    const user = await User.findById(userId).populate("subjects");
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+    res.json(user);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Server Error" });
+  }
+});
+
+router.get("/ab/:userId", async (req, res) => {
+  try {
+    const userId = req.params.userId;
+    const user = await User.findById(userId);
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+    res.json(user);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Internal Server Error" });
+  }
+});
+
+// Endpoint to fetch timetable for a user by ID
+router.get(':userId', async (req, res) => {
   const { userId } = req.params;
 
   // Check if userId is in the correct ObjectId format
@@ -25,12 +55,68 @@ router.get('/fetchtimetable/:userId', async (req, res) => {
       return res.status(404).json({ success: false, message: 'User not found' });
     }
 
-    res.json({ success: true, user });
+    // Extract subject IDs from user schema
+    const { subject1, subject2, subject3 } = user;
+
+    // Fetch subject details based on subject IDs
+    const subjectPromises = [Subject.findById(subject1), Subject.findById(subject2), Subject.findById(subject3)];
+
+    // Execute all promises in parallel
+    const subjects = await Promise.all(subjectPromises);
+
+    const timetableData = {
+      success: true,
+      timetableData: subjects.map(subject => {
+        if (!subject) {
+          return null; // Return null for subjects that are not found
+        }
+
+        return {
+          category: subject.category || "N/A",
+          coursetitle: subject.coursetitle || "N/A",
+          coursecode: subject.coursecode || "N/A",
+          ntr: subject.ntr || "N/A",
+          version: subject.version || "N/A",
+          lecture: subject.lecture || "N/A",
+          practical: subject.practical || "N/A",
+          tutorial: subject.tutorial || "N/A",
+          project: subject.project || "N/A",
+          credit: subject.credit || "N/A",
+          coursevenue: subject.coursevenue || "N/A",
+          coursetype: subject.coursetype || "N/A",
+          courseoption: subject.courseoption || "N/A",
+          coursesemester: subject.coursesemester || "N/A"
+        };
+      }),
+    };
+
+    res.json(timetableData);
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ success: false, message: 'Internal Server Error' });
+    console.error("Error fetching timetable data for user:", error);
+    res.status(500).json({ success: false, message: "Server error" });
   }
 });
+
+// router.get('/fetchtimetable/:userId', async (req, res) => {
+//   const { userId } = req.params;
+
+//   // Check if userId is in the correct ObjectId format
+//   if (!mongoose.Types.ObjectId.isValid(userId)) {
+//     return res.status(400).json({ success: false, message: 'Invalid userId format' });
+//   }
+
+//   try {
+//     const user = await User.findById(userId);
+//     if (!user) {
+//       return res.status(404).json({ success: false, message: 'User not found' });
+//     }
+
+//     res.json({ success: true, user });
+//   } catch (error) {
+//     console.error(error);
+//     res.status(500).json({ success: false, message: 'Internal Server Error' });
+//   }
+// });
 
 // Route 1: create a user using: POST "/api/auth/createuser". No Login Required
 router.post(
@@ -389,15 +475,7 @@ router.get("/fetchh/:userId", async (req, res) => {
           coursevenue: subject.coursevenue || "N/A",
           coursetype: subject.coursetype || "N/A",
           courseoption: subject.courseoption || "N/A",
-          Fslotname: subject.Fslotname || "N/A",
-          Fslotday: subject.Fslotday || "N/A",
-          Fslottime: subject.Fslottime || "N/A",
-          Sslotname: subject.Sslotname || "N/A",
-          Sslotday: subject.Sslotday || "N/A",
-          Sslottime: subject.Sslottime || "N/A",
-          Tslotname: subject.Tslotname || "N/A",
-          Tslotday: subject.Tslotday || "N/A",
-          Tslottime: subject.Tslottime || "N/A",
+          coursesemester: subject.coursesemester || "N/A"
         };
       }),
     };

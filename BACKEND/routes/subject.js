@@ -390,4 +390,37 @@ router.get("/:id", async (req, res) => {
   }
 });
 
+
+// GET subject data by ID
+router.get('/data/:subjectId', async (req, res) => {
+  const { subjectId } = req.params;
+
+  try {
+    const subject = await Subject.findById(subjectId);
+
+    if (!subject) {
+      return res.status(404).json({ message: 'Subject not found' });
+    }
+
+    res.json(subject);
+  } catch (error) {
+    console.error('Error fetching subject data:', error);
+    res.status(500).json({ message: 'Server error' });
+  }
+});
+
+// GET subject data by subjectId
+router.get("/data/:subjectId", async (req, res) => {
+  try {
+    const { subjectId } = req.params;
+    const subject = await Subject.findById(subjectId);
+    if (!subject) {
+      return res.status(404).json({ message: "Subject not found" });
+    }
+    res.json(subject);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Server Error" });
+  }
+});
 module.exports = router;

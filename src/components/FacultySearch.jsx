@@ -101,7 +101,7 @@ function FacultySearch() {
     window.location.href = `/updateregister/${id}`;
   };
   const handleView = (id) => {
-    window.location.href =`/viewprofile/${id}`;
+    window.location.href =`/history`;
   };
 
   // Function to format date to display only date (YYYY-MM-DD)

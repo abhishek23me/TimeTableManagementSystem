@@ -136,19 +136,10 @@ const SubjectSelect = () => {
 
         if (index === 0) {
           updatedSubject.FslotId = selectedSlot.slotId;
-          updatedSubject.Fslotname = selectedSlot.slotname;
-          updatedSubject.Fslotday = selectedSlot.slotday;
-          updatedSubject.Fslottime = selectedSlot.slottime;
         } else if (index === 1) {
           updatedSubject.SslotId = selectedSlot.slotId;
-          updatedSubject.Sslotname = selectedSlot.slotname;
-          updatedSubject.Sslotday = selectedSlot.slotday;
-          updatedSubject.Sslottime = selectedSlot.slottime;
         } else if (index === 2) {
           updatedSubject.TslotId = selectedSlot.slotId;
-          updatedSubject.Tslotname = selectedSlot.slotname;
-          updatedSubject.Tslotday = selectedSlot.slotday;
-          updatedSubject.Tslottime = selectedSlot.slottime;
         }
 
         // Make the PUT request to update the subject in the database

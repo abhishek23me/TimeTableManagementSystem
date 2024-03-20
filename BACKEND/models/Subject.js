@@ -98,15 +98,13 @@ const SubjectSchema = new Schema({
   // Separate fields for storing date and time
   date: {
     type: Date,
-    required: true
+    default: Date.now
   },
   time: {
     type: String,
     default: "00:00"
   },
 });
-
-
 
 // Custom validation function to check uniqueness of 'coursecode'
 SubjectSchema.path('coursecode').validate(async function (value) {
@@ -131,8 +129,6 @@ SubjectSchema.pre('save', async function (next) {
   }
   next();
 });
-
-
 
 // Middleware function to convert date to IST before saving
 SubjectSchema.pre('save', function (next) {
